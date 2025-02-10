@@ -1,12 +1,11 @@
 import './App.css'
-import { Button } from './components/ui/button'
+import { NavBar } from './components/navbar'
 
 function App() {
 
   return (
     <>
-      <span>Hello World.</span>
-      <Button>Click Me</Button>
+      <NavBar />
     </>
   )
 }
