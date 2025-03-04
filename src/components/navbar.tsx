@@ -8,7 +8,7 @@ export function NavBar() {
       </div>
       <div>
         <Button variant={"link"} className="font-[Poppins] text-gray-700">Home</Button>
-        <Button variant={"link"} className="font-[Poppins] text-gray-700">Car Dealer Location</Button>
+        <Button variant={"link"} className="font-[Poppins] text-gray-700">Car Dealer Locations</Button>
         <Button className="font-[Poppins]">Login</Button>
       </div>
     </div>
