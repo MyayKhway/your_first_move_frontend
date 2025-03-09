@@ -13,6 +13,12 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SignupImport } from './routes/signup'
 import { Route as SigninImport } from './routes/signin'
+import { Route as ResetpassDealerImport } from './routes/resetpass-dealer'
+import { Route as ResetpassImport } from './routes/resetpass'
+import { Route as ForgotpassDealerImport } from './routes/forgotpass-dealer'
+import { Route as ForgotpassImport } from './routes/forgotpass'
+import { Route as DealerSignupImport } from './routes/dealer-signup'
+import { Route as DealerSigninImport } from './routes/dealer-signin'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
@@ -26,6 +32,42 @@ const SignupRoute = SignupImport.update({
 const SigninRoute = SigninImport.update({
   id: '/signin',
   path: '/signin',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ResetpassDealerRoute = ResetpassDealerImport.update({
+  id: '/resetpass-dealer',
+  path: '/resetpass-dealer',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ResetpassRoute = ResetpassImport.update({
+  id: '/resetpass',
+  path: '/resetpass',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ForgotpassDealerRoute = ForgotpassDealerImport.update({
+  id: '/forgotpass-dealer',
+  path: '/forgotpass-dealer',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ForgotpassRoute = ForgotpassImport.update({
+  id: '/forgotpass',
+  path: '/forgotpass',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DealerSignupRoute = DealerSignupImport.update({
+  id: '/dealer-signup',
+  path: '/dealer-signup',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DealerSigninRoute = DealerSigninImport.update({
+  id: '/dealer-signin',
+  path: '/dealer-signin',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -44,6 +86,48 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dealer-signin': {
+      id: '/dealer-signin'
+      path: '/dealer-signin'
+      fullPath: '/dealer-signin'
+      preLoaderRoute: typeof DealerSigninImport
+      parentRoute: typeof rootRoute
+    }
+    '/dealer-signup': {
+      id: '/dealer-signup'
+      path: '/dealer-signup'
+      fullPath: '/dealer-signup'
+      preLoaderRoute: typeof DealerSignupImport
+      parentRoute: typeof rootRoute
+    }
+    '/forgotpass': {
+      id: '/forgotpass'
+      path: '/forgotpass'
+      fullPath: '/forgotpass'
+      preLoaderRoute: typeof ForgotpassImport
+      parentRoute: typeof rootRoute
+    }
+    '/forgotpass-dealer': {
+      id: '/forgotpass-dealer'
+      path: '/forgotpass-dealer'
+      fullPath: '/forgotpass-dealer'
+      preLoaderRoute: typeof ForgotpassDealerImport
+      parentRoute: typeof rootRoute
+    }
+    '/resetpass': {
+      id: '/resetpass'
+      path: '/resetpass'
+      fullPath: '/resetpass'
+      preLoaderRoute: typeof ResetpassImport
+      parentRoute: typeof rootRoute
+    }
+    '/resetpass-dealer': {
+      id: '/resetpass-dealer'
+      path: '/resetpass-dealer'
+      fullPath: '/resetpass-dealer'
+      preLoaderRoute: typeof ResetpassDealerImport
       parentRoute: typeof rootRoute
     }
     '/signin': {
@@ -67,12 +151,24 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dealer-signin': typeof DealerSigninRoute
+  '/dealer-signup': typeof DealerSignupRoute
+  '/forgotpass': typeof ForgotpassRoute
+  '/forgotpass-dealer': typeof ForgotpassDealerRoute
+  '/resetpass': typeof ResetpassRoute
+  '/resetpass-dealer': typeof ResetpassDealerRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dealer-signin': typeof DealerSigninRoute
+  '/dealer-signup': typeof DealerSignupRoute
+  '/forgotpass': typeof ForgotpassRoute
+  '/forgotpass-dealer': typeof ForgotpassDealerRoute
+  '/resetpass': typeof ResetpassRoute
+  '/resetpass-dealer': typeof ResetpassDealerRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
 }
@@ -80,27 +176,73 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/dealer-signin': typeof DealerSigninRoute
+  '/dealer-signup': typeof DealerSignupRoute
+  '/forgotpass': typeof ForgotpassRoute
+  '/forgotpass-dealer': typeof ForgotpassDealerRoute
+  '/resetpass': typeof ResetpassRoute
+  '/resetpass-dealer': typeof ResetpassDealerRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/signin' | '/signup'
+  fullPaths:
+    | '/'
+    | '/dealer-signin'
+    | '/dealer-signup'
+    | '/forgotpass'
+    | '/forgotpass-dealer'
+    | '/resetpass'
+    | '/resetpass-dealer'
+    | '/signin'
+    | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/signin' | '/signup'
-  id: '__root__' | '/' | '/signin' | '/signup'
+  to:
+    | '/'
+    | '/dealer-signin'
+    | '/dealer-signup'
+    | '/forgotpass'
+    | '/forgotpass-dealer'
+    | '/resetpass'
+    | '/resetpass-dealer'
+    | '/signin'
+    | '/signup'
+  id:
+    | '__root__'
+    | '/'
+    | '/dealer-signin'
+    | '/dealer-signup'
+    | '/forgotpass'
+    | '/forgotpass-dealer'
+    | '/resetpass'
+    | '/resetpass-dealer'
+    | '/signin'
+    | '/signup'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DealerSigninRoute: typeof DealerSigninRoute
+  DealerSignupRoute: typeof DealerSignupRoute
+  ForgotpassRoute: typeof ForgotpassRoute
+  ForgotpassDealerRoute: typeof ForgotpassDealerRoute
+  ResetpassRoute: typeof ResetpassRoute
+  ResetpassDealerRoute: typeof ResetpassDealerRoute
   SigninRoute: typeof SigninRoute
   SignupRoute: typeof SignupRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DealerSigninRoute: DealerSigninRoute,
+  DealerSignupRoute: DealerSignupRoute,
+  ForgotpassRoute: ForgotpassRoute,
+  ForgotpassDealerRoute: ForgotpassDealerRoute,
+  ResetpassRoute: ResetpassRoute,
+  ResetpassDealerRoute: ResetpassDealerRoute,
   SigninRoute: SigninRoute,
   SignupRoute: SignupRoute,
 }
@@ -116,12 +258,36 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/dealer-signin",
+        "/dealer-signup",
+        "/forgotpass",
+        "/forgotpass-dealer",
+        "/resetpass",
+        "/resetpass-dealer",
         "/signin",
         "/signup"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/dealer-signin": {
+      "filePath": "dealer-signin.tsx"
+    },
+    "/dealer-signup": {
+      "filePath": "dealer-signup.tsx"
+    },
+    "/forgotpass": {
+      "filePath": "forgotpass.tsx"
+    },
+    "/forgotpass-dealer": {
+      "filePath": "forgotpass-dealer.tsx"
+    },
+    "/resetpass": {
+      "filePath": "resetpass.tsx"
+    },
+    "/resetpass-dealer": {
+      "filePath": "resetpass-dealer.tsx"
     },
     "/signin": {
       "filePath": "signin.tsx"
