@@ -19,6 +19,7 @@ import { Route as ForgotpassDealerImport } from './routes/forgotpass-dealer'
 import { Route as ForgotpassImport } from './routes/forgotpass'
 import { Route as DealerSignupImport } from './routes/dealer-signup'
 import { Route as DealerSigninImport } from './routes/dealer-signin'
+import { Route as DashboardImport } from './routes/dashboard'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
@@ -71,6 +72,12 @@ const DealerSigninRoute = DealerSigninImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const DashboardRoute = DashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -86,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardImport
       parentRoute: typeof rootRoute
     }
     '/dealer-signin': {
@@ -151,6 +165,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/dealer-signin': typeof DealerSigninRoute
   '/dealer-signup': typeof DealerSignupRoute
   '/forgotpass': typeof ForgotpassRoute
@@ -163,6 +178,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/dealer-signin': typeof DealerSigninRoute
   '/dealer-signup': typeof DealerSignupRoute
   '/forgotpass': typeof ForgotpassRoute
@@ -176,6 +192,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/dealer-signin': typeof DealerSigninRoute
   '/dealer-signup': typeof DealerSignupRoute
   '/forgotpass': typeof ForgotpassRoute
@@ -190,6 +207,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/dashboard'
     | '/dealer-signin'
     | '/dealer-signup'
     | '/forgotpass'
@@ -201,6 +219,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/dashboard'
     | '/dealer-signin'
     | '/dealer-signup'
     | '/forgotpass'
@@ -212,6 +231,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/dashboard'
     | '/dealer-signin'
     | '/dealer-signup'
     | '/forgotpass'
@@ -225,6 +245,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
   DealerSigninRoute: typeof DealerSigninRoute
   DealerSignupRoute: typeof DealerSignupRoute
   ForgotpassRoute: typeof ForgotpassRoute
@@ -237,6 +258,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
   DealerSigninRoute: DealerSigninRoute,
   DealerSignupRoute: DealerSignupRoute,
   ForgotpassRoute: ForgotpassRoute,
@@ -258,6 +280,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/dashboard",
         "/dealer-signin",
         "/dealer-signup",
         "/forgotpass",
@@ -270,6 +293,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/dashboard": {
+      "filePath": "dashboard.tsx"
     },
     "/dealer-signin": {
       "filePath": "dealer-signin.tsx"

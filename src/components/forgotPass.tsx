@@ -22,8 +22,7 @@ export default function ForgotPassword() {
 
   return (
     <div
-      className="h-screen w-screen flex items-center justify-center bg-no-repeat bg-cover bg-center"
-      style={{ backgroundImage: "url('/background.jpg')" }}
+      className="h-screen bg-[url(/background.jpg)] w-screen flex items-center justify-center bg-no-repeat bg-cover bg-center"
     >
       <div className="w-full max-w-md mx-auto p-8 bg-white shadow-lg rounded-lg border border-gray-200 sm:p-10">
         <h2 className="text-2xl font-bold text-blue-900 sm:text-3xl text-center">Forgot Password?</h2>
