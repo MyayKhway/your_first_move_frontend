@@ -3,13 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const [formState, setFormState] = useState<"error" | "wrong">()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false,
+    type: "user"
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,9 +25,31 @@ export default function SignInForm() {
     setFormData((prev) => ({ ...prev, rememberMe: checked }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Sign In Data:", formData);
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
+    try {
+      const response = await fetch(`${baseUrl}/auth/signin`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+      if (!response.ok) {
+        setFormState("wrong")
+        console.error(`Invalid Credentials.`)
+      } else {
+        navigate({
+          to: '/dashboard',
+        })
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setFormState("error")
+        console.error(`Error submtting form. ${error}`)
+      }
+    }
   };
 
   return (
@@ -62,6 +88,9 @@ export default function SignInForm() {
             Forgot Password?
           </a>
         </div>
+        {
+          formState == "wrong" && <span className="text-red-500 text-sm">Wrong credentials.</span>
+        }
 
         <Button type="submit" className="w-full !bg-blue-900 !text-white hover:!bg-blue-800 transition">
           Sign In
