@@ -3,16 +3,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
+import LocationPicker from "./mapComponent";
+import { useNavigate } from "@tanstack/react-router";
 
+interface FormDataType {
+  name: string,
+  email: string,
+  password: string,
+  contactNumber: string,
+  location: {
+    lat: number, lng: number, address?: string
+  },
+  terms: boolean
+}
 export default function DealerSignUp() {
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+  const [formState, setFormState] = useState<string>()
+  const [formData, setFormData] = useState<FormDataType>({
+    name: "",
     email: "",
     password: "",
     contactNumber: "",
-    location: "",
+    location: {
+      lat: 13.728191, lng: 100.774637, address: ""
+    },
     terms: false,
   });
 
@@ -24,9 +39,38 @@ export default function DealerSignUp() {
     setFormData((prev) => ({ ...prev, terms: checked }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLocationChange = (location: { lat: number; lng: number; address?: string }) => {
+    setFormData({
+      ...formData,
+      location,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Dealer Sign Up Data:", formData);
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
+    try {
+      const response = await fetch(`${baseUrl}/auth/dealer/signup`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+      if (!response.ok) {
+        setFormState("error")
+        console.error(`signing up error.`)
+      } else {
+        navigate({
+          to: '/dashboard',
+        })
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setFormState("error")
+        console.error(`Error submtting form. ${error}`)
+      }
+    }
   };
 
   return (
@@ -35,15 +79,9 @@ export default function DealerSignUp() {
       <p className="text-gray-500">Register as a car dealer to start listing vehicles.</p>
 
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium text-gray-700">First Name</label>
-            <Input name="firstName" placeholder="Enter first name" value={formData.firstName} onChange={handleChange} />
-          </div>
-          <div>
-            <label className="block font-medium text-gray-700">Last Name</label>
-            <Input name="lastName" placeholder="Enter last name" value={formData.lastName} onChange={handleChange} />
-          </div>
+        <div>
+          <label className="block font-medium text-gray-700">Dealership name</label>
+          <Input name="name" placeholder="Enter name of dealership:" value={formData.name} onChange={handleChange} />
         </div>
 
         <div>
@@ -72,9 +110,12 @@ export default function DealerSignUp() {
           <Input name="contactNumber" placeholder="Enter contact number" value={formData.contactNumber} onChange={handleChange} />
         </div>
 
-        <div>
+        <div className="flex flex-col space-y-2">
           <label className="block font-medium text-gray-700">Location</label>
-          <Input name="location" placeholder="Enter location" value={formData.location} onChange={handleChange} />
+          <LocationPicker
+            initialLocation={formData.location}
+            onLocationChange={handleLocationChange}
+          />
         </div>
 
         <div className="flex items-center space-x-2">
@@ -82,14 +123,17 @@ export default function DealerSignUp() {
           <label className="text-gray-700 text-sm sm:text-base">I agree to the terms and conditions</label>
         </div>
 
-        <Button type="submit" className="w-full !bg-blue-900 !text-white hover:!bg-blue-800 transition">
-          Register as Dealer
-        </Button>
+        <div className="flex flex-col gap-2">
+          {formState == "error" && <span className="text-sm text-red-500">Sign up Error</span>}
+          <Button type="submit" className="w-full !bg-blue-900 !text-white hover:!bg-blue-800 transition">
+            Register as Dealer
+          </Button>
+        </div>
 
         <p className="text-center text-gray-500 mt-3 text-sm sm:text-base">
           Already have an account? <a href="/dealer-signin" className="text-blue-900 font-medium hover:underline">Sign in</a>
         </p>
-      </form>
-    </div>
+      </form >
+    </div >
   );
 }
