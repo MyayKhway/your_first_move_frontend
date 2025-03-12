@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/authContext";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +16,7 @@ export default function SignInForm() {
     rememberMe: false,
     type: "user"
   });
+  const { login } = useAuth()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,8 +42,18 @@ export default function SignInForm() {
         setFormState("wrong")
         console.error(`Invalid Credentials.`)
       } else {
+        const resObj = await response.json()
+        const { id, userName, email, verified } = resObj.user
+        console.log(id, userName, email, verified)
+        login({
+          id: parseInt(id),
+          userName: userName as string,
+          email: email as string,
+          verified: verified === "true",
+          type: 'user'
+        })
         navigate({
-          to: '/dashboard',
+          to: '/',
         })
       }
     } catch (error) {
