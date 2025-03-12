@@ -74,66 +74,68 @@ export default function DealerSignUp() {
   };
 
   return (
-    <div className="max-w-md w-full mx-auto p-6 bg-white text-gray-900 shadow-lg rounded-lg border border-gray-200 sm:p-8">
-      <h2 className="text-2xl font-bold text-blue-900 sm:text-3xl">Dealer Sign Up</h2>
-      <p className="text-gray-500">Register as a car dealer to start listing vehicles.</p>
+    <div className="flex justify-center items-center bg-center bg-no-repeat bg-cover bg-[url(/background.jpg)] h-auto">
+      <div className="max-w-md w-full mx-auto bg-white text-gray-900 shadow-lg rounded-lg my-20 border border-gray-200 sm:p-8">
+        <h2 className="text-2xl font-bold text-blue-900 sm:text-3xl">Dealer Sign Up</h2>
+        <p className="text-gray-500">Register as a car dealer to start listing vehicles.</p>
 
-      <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-        <div>
-          <label className="block font-medium text-gray-700">Dealership name</label>
-          <Input name="name" placeholder="Enter name of dealership:" value={formData.name} onChange={handleChange} />
-        </div>
-
-        <div>
-          <label className="block font-medium text-gray-700">Email</label>
-          <Input type="email" name="email" placeholder="Enter email" value={formData.email} onChange={handleChange} />
-        </div>
-
-        <div className="relative">
-          <label className="block font-medium text-gray-700">Password</label>
-          <div className="relative">
-            <Input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Enter password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-3 text-gray-500">
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
+        <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+          <div>
+            <label className="block font-medium text-gray-700">Dealership name</label>
+            <Input name="name" placeholder="Enter name of dealership:" value={formData.name} onChange={handleChange} />
           </div>
-        </div>
 
-        <div>
-          <label className="block font-medium text-gray-700">Contact Number</label>
-          <Input name="contactNumber" placeholder="Enter contact number" value={formData.contactNumber} onChange={handleChange} />
-        </div>
+          <div>
+            <label className="block font-medium text-gray-700">Email</label>
+            <Input type="email" name="email" placeholder="Enter email" value={formData.email} onChange={handleChange} />
+          </div>
 
-        <div className="flex flex-col space-y-2">
-          <label className="block font-medium text-gray-700">Location</label>
-          <LocationPicker
-            initialLocation={formData.location}
-            onLocationChange={handleLocationChange}
-          />
-        </div>
+          <div className="relative">
+            <label className="block font-medium text-gray-700">Password</label>
+            <div className="relative">
+              <Input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Enter password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-3 text-gray-500">
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          </div>
 
-        <div className="flex items-center space-x-2">
-          <Checkbox checked={formData.terms} onCheckedChange={handleCheckboxChange} />
-          <label className="text-gray-700 text-sm sm:text-base">I agree to the terms and conditions</label>
-        </div>
+          <div>
+            <label className="block font-medium text-gray-700">Contact Number</label>
+            <Input name="contactNumber" placeholder="Enter contact number" value={formData.contactNumber} onChange={handleChange} />
+          </div>
 
-        <div className="flex flex-col gap-2">
-          {formState == "error" && <span className="text-sm text-red-500">Sign up Error</span>}
-          <Button type="submit" className="w-full !bg-blue-900 !text-white hover:!bg-blue-800 transition">
-            Register as Dealer
-          </Button>
-        </div>
+          <div className="flex flex-col space-y-2">
+            <label className="block font-medium text-gray-700">Location</label>
+            <LocationPicker
+              initialLocation={formData.location}
+              onLocationChange={handleLocationChange}
+            />
+          </div>
 
-        <p className="text-center text-gray-500 mt-3 text-sm sm:text-base">
-          Already have an account? <a href="/dealer-signin" className="text-blue-900 font-medium hover:underline">Sign in</a>
-        </p>
-      </form >
-    </div >
+          <div className="flex items-center space-x-2">
+            <Checkbox checked={formData.terms} onCheckedChange={handleCheckboxChange} />
+            <label className="text-gray-700 text-sm sm:text-base">I agree to the terms and conditions</label>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            {formState == "error" && <span className="text-sm text-red-500">Sign up Error</span>}
+            <Button type="submit" className="w-full !bg-blue-900 !text-white hover:!bg-blue-800 transition">
+              Register as Dealer
+            </Button>
+          </div>
+
+          <p className="text-center text-gray-500 mt-3 text-sm sm:text-base">
+            Already have an account? <a href="/dealer-signin" className="text-blue-900 font-medium hover:underline">Sign in</a>
+          </p>
+        </form >
+      </div >
+    </div>
   );
 }

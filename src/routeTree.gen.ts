@@ -11,66 +11,20 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as SignupImport } from './routes/signup'
-import { Route as SigninImport } from './routes/signin'
-import { Route as ResetpassDealerImport } from './routes/resetpass-dealer'
-import { Route as ResetpassImport } from './routes/resetpass'
-import { Route as ForgotpassDealerImport } from './routes/forgotpass-dealer'
-import { Route as ForgotpassImport } from './routes/forgotpass'
-import { Route as DealerSignupImport } from './routes/dealer-signup'
-import { Route as DealerSigninImport } from './routes/dealer-signin'
 import { Route as DashboardImport } from './routes/dashboard'
+import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthVerifyEmailImport } from './routes/_auth/verify-email'
+import { Route as AuthSignupImport } from './routes/_auth/signup'
+import { Route as AuthSigninImport } from './routes/_auth/signin'
+import { Route as AuthResetpassDealerImport } from './routes/_auth/resetpass-dealer'
+import { Route as AuthResetpassImport } from './routes/_auth/resetpass'
+import { Route as AuthForgotpassDealerImport } from './routes/_auth/forgotpass-dealer'
+import { Route as AuthForgotpassImport } from './routes/_auth/forgotpass'
+import { Route as AuthDealerSignupImport } from './routes/_auth/dealer-signup'
+import { Route as AuthDealerSigninImport } from './routes/_auth/dealer-signin'
 
 // Create/Update Routes
-
-const SignupRoute = SignupImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const SigninRoute = SigninImport.update({
-  id: '/signin',
-  path: '/signin',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ResetpassDealerRoute = ResetpassDealerImport.update({
-  id: '/resetpass-dealer',
-  path: '/resetpass-dealer',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ResetpassRoute = ResetpassImport.update({
-  id: '/resetpass',
-  path: '/resetpass',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ForgotpassDealerRoute = ForgotpassDealerImport.update({
-  id: '/forgotpass-dealer',
-  path: '/forgotpass-dealer',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ForgotpassRoute = ForgotpassImport.update({
-  id: '/forgotpass',
-  path: '/forgotpass',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const DealerSignupRoute = DealerSignupImport.update({
-  id: '/dealer-signup',
-  path: '/dealer-signup',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const DealerSigninRoute = DealerSigninImport.update({
-  id: '/dealer-signin',
-  path: '/dealer-signin',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const DashboardRoute = DashboardImport.update({
   id: '/dashboard',
@@ -78,10 +32,69 @@ const DashboardRoute = DashboardImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthRouteRoute = AuthRouteImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthVerifyEmailRoute = AuthVerifyEmailImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthSignupRoute = AuthSignupImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthSigninRoute = AuthSigninImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthResetpassDealerRoute = AuthResetpassDealerImport.update({
+  id: '/resetpass-dealer',
+  path: '/resetpass-dealer',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthResetpassRoute = AuthResetpassImport.update({
+  id: '/resetpass',
+  path: '/resetpass',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthForgotpassDealerRoute = AuthForgotpassDealerImport.update({
+  id: '/forgotpass-dealer',
+  path: '/forgotpass-dealer',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthForgotpassRoute = AuthForgotpassImport.update({
+  id: '/forgotpass',
+  path: '/forgotpass',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthDealerSignupRoute = AuthDealerSignupImport.update({
+  id: '/dealer-signup',
+  path: '/dealer-signup',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthDealerSigninRoute = AuthDealerSigninImport.update({
+  id: '/dealer-signin',
+  path: '/dealer-signin',
+  getParentRoute: () => AuthRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -95,6 +108,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -102,111 +122,153 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardImport
       parentRoute: typeof rootRoute
     }
-    '/dealer-signin': {
-      id: '/dealer-signin'
+    '/_auth/dealer-signin': {
+      id: '/_auth/dealer-signin'
       path: '/dealer-signin'
       fullPath: '/dealer-signin'
-      preLoaderRoute: typeof DealerSigninImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthDealerSigninImport
+      parentRoute: typeof AuthRouteImport
     }
-    '/dealer-signup': {
-      id: '/dealer-signup'
+    '/_auth/dealer-signup': {
+      id: '/_auth/dealer-signup'
       path: '/dealer-signup'
       fullPath: '/dealer-signup'
-      preLoaderRoute: typeof DealerSignupImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthDealerSignupImport
+      parentRoute: typeof AuthRouteImport
     }
-    '/forgotpass': {
-      id: '/forgotpass'
+    '/_auth/forgotpass': {
+      id: '/_auth/forgotpass'
       path: '/forgotpass'
       fullPath: '/forgotpass'
-      preLoaderRoute: typeof ForgotpassImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthForgotpassImport
+      parentRoute: typeof AuthRouteImport
     }
-    '/forgotpass-dealer': {
-      id: '/forgotpass-dealer'
+    '/_auth/forgotpass-dealer': {
+      id: '/_auth/forgotpass-dealer'
       path: '/forgotpass-dealer'
       fullPath: '/forgotpass-dealer'
-      preLoaderRoute: typeof ForgotpassDealerImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthForgotpassDealerImport
+      parentRoute: typeof AuthRouteImport
     }
-    '/resetpass': {
-      id: '/resetpass'
+    '/_auth/resetpass': {
+      id: '/_auth/resetpass'
       path: '/resetpass'
       fullPath: '/resetpass'
-      preLoaderRoute: typeof ResetpassImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthResetpassImport
+      parentRoute: typeof AuthRouteImport
     }
-    '/resetpass-dealer': {
-      id: '/resetpass-dealer'
+    '/_auth/resetpass-dealer': {
+      id: '/_auth/resetpass-dealer'
       path: '/resetpass-dealer'
       fullPath: '/resetpass-dealer'
-      preLoaderRoute: typeof ResetpassDealerImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthResetpassDealerImport
+      parentRoute: typeof AuthRouteImport
     }
-    '/signin': {
-      id: '/signin'
+    '/_auth/signin': {
+      id: '/_auth/signin'
       path: '/signin'
       fullPath: '/signin'
-      preLoaderRoute: typeof SigninImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthSigninImport
+      parentRoute: typeof AuthRouteImport
     }
-    '/signup': {
-      id: '/signup'
+    '/_auth/signup': {
+      id: '/_auth/signup'
       path: '/signup'
       fullPath: '/signup'
-      preLoaderRoute: typeof SignupImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthSignupImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/_auth/verify-email': {
+      id: '/_auth/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof AuthVerifyEmailImport
+      parentRoute: typeof AuthRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AuthRouteRouteChildren {
+  AuthDealerSigninRoute: typeof AuthDealerSigninRoute
+  AuthDealerSignupRoute: typeof AuthDealerSignupRoute
+  AuthForgotpassRoute: typeof AuthForgotpassRoute
+  AuthForgotpassDealerRoute: typeof AuthForgotpassDealerRoute
+  AuthResetpassRoute: typeof AuthResetpassRoute
+  AuthResetpassDealerRoute: typeof AuthResetpassDealerRoute
+  AuthSigninRoute: typeof AuthSigninRoute
+  AuthSignupRoute: typeof AuthSignupRoute
+  AuthVerifyEmailRoute: typeof AuthVerifyEmailRoute
+}
+
+const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthDealerSigninRoute: AuthDealerSigninRoute,
+  AuthDealerSignupRoute: AuthDealerSignupRoute,
+  AuthForgotpassRoute: AuthForgotpassRoute,
+  AuthForgotpassDealerRoute: AuthForgotpassDealerRoute,
+  AuthResetpassRoute: AuthResetpassRoute,
+  AuthResetpassDealerRoute: AuthResetpassDealerRoute,
+  AuthSigninRoute: AuthSigninRoute,
+  AuthSignupRoute: AuthSignupRoute,
+  AuthVerifyEmailRoute: AuthVerifyEmailRoute,
+}
+
+const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
+  AuthRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '': typeof AuthRouteRouteWithChildren
   '/dashboard': typeof DashboardRoute
-  '/dealer-signin': typeof DealerSigninRoute
-  '/dealer-signup': typeof DealerSignupRoute
-  '/forgotpass': typeof ForgotpassRoute
-  '/forgotpass-dealer': typeof ForgotpassDealerRoute
-  '/resetpass': typeof ResetpassRoute
-  '/resetpass-dealer': typeof ResetpassDealerRoute
-  '/signin': typeof SigninRoute
-  '/signup': typeof SignupRoute
+  '/dealer-signin': typeof AuthDealerSigninRoute
+  '/dealer-signup': typeof AuthDealerSignupRoute
+  '/forgotpass': typeof AuthForgotpassRoute
+  '/forgotpass-dealer': typeof AuthForgotpassDealerRoute
+  '/resetpass': typeof AuthResetpassRoute
+  '/resetpass-dealer': typeof AuthResetpassDealerRoute
+  '/signin': typeof AuthSigninRoute
+  '/signup': typeof AuthSignupRoute
+  '/verify-email': typeof AuthVerifyEmailRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '': typeof AuthRouteRouteWithChildren
   '/dashboard': typeof DashboardRoute
-  '/dealer-signin': typeof DealerSigninRoute
-  '/dealer-signup': typeof DealerSignupRoute
-  '/forgotpass': typeof ForgotpassRoute
-  '/forgotpass-dealer': typeof ForgotpassDealerRoute
-  '/resetpass': typeof ResetpassRoute
-  '/resetpass-dealer': typeof ResetpassDealerRoute
-  '/signin': typeof SigninRoute
-  '/signup': typeof SignupRoute
+  '/dealer-signin': typeof AuthDealerSigninRoute
+  '/dealer-signup': typeof AuthDealerSignupRoute
+  '/forgotpass': typeof AuthForgotpassRoute
+  '/forgotpass-dealer': typeof AuthForgotpassDealerRoute
+  '/resetpass': typeof AuthResetpassRoute
+  '/resetpass-dealer': typeof AuthResetpassDealerRoute
+  '/signin': typeof AuthSigninRoute
+  '/signup': typeof AuthSignupRoute
+  '/verify-email': typeof AuthVerifyEmailRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/_auth': typeof AuthRouteRouteWithChildren
   '/dashboard': typeof DashboardRoute
-  '/dealer-signin': typeof DealerSigninRoute
-  '/dealer-signup': typeof DealerSignupRoute
-  '/forgotpass': typeof ForgotpassRoute
-  '/forgotpass-dealer': typeof ForgotpassDealerRoute
-  '/resetpass': typeof ResetpassRoute
-  '/resetpass-dealer': typeof ResetpassDealerRoute
-  '/signin': typeof SigninRoute
-  '/signup': typeof SignupRoute
+  '/_auth/dealer-signin': typeof AuthDealerSigninRoute
+  '/_auth/dealer-signup': typeof AuthDealerSignupRoute
+  '/_auth/forgotpass': typeof AuthForgotpassRoute
+  '/_auth/forgotpass-dealer': typeof AuthForgotpassDealerRoute
+  '/_auth/resetpass': typeof AuthResetpassRoute
+  '/_auth/resetpass-dealer': typeof AuthResetpassDealerRoute
+  '/_auth/signin': typeof AuthSigninRoute
+  '/_auth/signup': typeof AuthSignupRoute
+  '/_auth/verify-email': typeof AuthVerifyEmailRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | ''
     | '/dashboard'
     | '/dealer-signin'
     | '/dealer-signup'
@@ -216,9 +278,11 @@ export interface FileRouteTypes {
     | '/resetpass-dealer'
     | '/signin'
     | '/signup'
+    | '/verify-email'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | ''
     | '/dashboard'
     | '/dealer-signin'
     | '/dealer-signup'
@@ -228,45 +292,34 @@ export interface FileRouteTypes {
     | '/resetpass-dealer'
     | '/signin'
     | '/signup'
+    | '/verify-email'
   id:
     | '__root__'
     | '/'
+    | '/_auth'
     | '/dashboard'
-    | '/dealer-signin'
-    | '/dealer-signup'
-    | '/forgotpass'
-    | '/forgotpass-dealer'
-    | '/resetpass'
-    | '/resetpass-dealer'
-    | '/signin'
-    | '/signup'
+    | '/_auth/dealer-signin'
+    | '/_auth/dealer-signup'
+    | '/_auth/forgotpass'
+    | '/_auth/forgotpass-dealer'
+    | '/_auth/resetpass'
+    | '/_auth/resetpass-dealer'
+    | '/_auth/signin'
+    | '/_auth/signup'
+    | '/_auth/verify-email'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
   DashboardRoute: typeof DashboardRoute
-  DealerSigninRoute: typeof DealerSigninRoute
-  DealerSignupRoute: typeof DealerSignupRoute
-  ForgotpassRoute: typeof ForgotpassRoute
-  ForgotpassDealerRoute: typeof ForgotpassDealerRoute
-  ResetpassRoute: typeof ResetpassRoute
-  ResetpassDealerRoute: typeof ResetpassDealerRoute
-  SigninRoute: typeof SigninRoute
-  SignupRoute: typeof SignupRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRouteRoute: AuthRouteRouteWithChildren,
   DashboardRoute: DashboardRoute,
-  DealerSigninRoute: DealerSigninRoute,
-  DealerSignupRoute: DealerSignupRoute,
-  ForgotpassRoute: ForgotpassRoute,
-  ForgotpassDealerRoute: ForgotpassDealerRoute,
-  ResetpassRoute: ResetpassRoute,
-  ResetpassDealerRoute: ResetpassDealerRoute,
-  SigninRoute: SigninRoute,
-  SignupRoute: SignupRoute,
 }
 
 export const routeTree = rootRoute
@@ -280,46 +333,65 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/dashboard",
-        "/dealer-signin",
-        "/dealer-signup",
-        "/forgotpass",
-        "/forgotpass-dealer",
-        "/resetpass",
-        "/resetpass-dealer",
-        "/signin",
-        "/signup"
+        "/_auth",
+        "/dashboard"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
+    "/_auth": {
+      "filePath": "_auth/route.tsx",
+      "children": [
+        "/_auth/dealer-signin",
+        "/_auth/dealer-signup",
+        "/_auth/forgotpass",
+        "/_auth/forgotpass-dealer",
+        "/_auth/resetpass",
+        "/_auth/resetpass-dealer",
+        "/_auth/signin",
+        "/_auth/signup",
+        "/_auth/verify-email"
+      ]
+    },
     "/dashboard": {
       "filePath": "dashboard.tsx"
     },
-    "/dealer-signin": {
-      "filePath": "dealer-signin.tsx"
+    "/_auth/dealer-signin": {
+      "filePath": "_auth/dealer-signin.tsx",
+      "parent": "/_auth"
     },
-    "/dealer-signup": {
-      "filePath": "dealer-signup.tsx"
+    "/_auth/dealer-signup": {
+      "filePath": "_auth/dealer-signup.tsx",
+      "parent": "/_auth"
     },
-    "/forgotpass": {
-      "filePath": "forgotpass.tsx"
+    "/_auth/forgotpass": {
+      "filePath": "_auth/forgotpass.tsx",
+      "parent": "/_auth"
     },
-    "/forgotpass-dealer": {
-      "filePath": "forgotpass-dealer.tsx"
+    "/_auth/forgotpass-dealer": {
+      "filePath": "_auth/forgotpass-dealer.tsx",
+      "parent": "/_auth"
     },
-    "/resetpass": {
-      "filePath": "resetpass.tsx"
+    "/_auth/resetpass": {
+      "filePath": "_auth/resetpass.tsx",
+      "parent": "/_auth"
     },
-    "/resetpass-dealer": {
-      "filePath": "resetpass-dealer.tsx"
+    "/_auth/resetpass-dealer": {
+      "filePath": "_auth/resetpass-dealer.tsx",
+      "parent": "/_auth"
     },
-    "/signin": {
-      "filePath": "signin.tsx"
+    "/_auth/signin": {
+      "filePath": "_auth/signin.tsx",
+      "parent": "/_auth"
     },
-    "/signup": {
-      "filePath": "signup.tsx"
+    "/_auth/signup": {
+      "filePath": "_auth/signup.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/verify-email": {
+      "filePath": "_auth/verify-email.tsx",
+      "parent": "/_auth"
     }
   }
 }

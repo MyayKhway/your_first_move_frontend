@@ -1,6 +1,15 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
+import { NavBar } from '@/components/navbar'
+import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
-  component: Button,
+  component: IndexComponent,
 })
+
+function IndexComponent() {
+  return (
+    <div>
+      <NavBar />
+      <Outlet />
+    </div>
+  )
+}
