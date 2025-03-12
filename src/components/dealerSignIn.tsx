@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/authContext";
 
 export default function DealerSignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +16,7 @@ export default function DealerSignIn() {
     rememberMe: false,
     type: 'dealer',
   });
+  const { login } = useAuth()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,6 +42,15 @@ export default function DealerSignIn() {
         setFormState("wrong")
         console.error(`Invalid Credentials.`)
       } else {
+        const resObj = await response.json()
+        const { id, name, email, verified } = resObj.dealer
+        login({
+          id: parseInt(id),
+          userName: name as string,
+          email: email as string,
+          verified: verified === "true",
+          type: "dealer"
+        })
         navigate({
           to: '/dashboard',
         })
