@@ -11,6 +11,7 @@ interface FormDataType {
   email: string,
   password: string,
   contactNumber: string,
+  website: string,
   location: {
     lat: number, lng: number, address?: string
   },
@@ -25,6 +26,7 @@ export default function DealerSignUp() {
     email: "",
     password: "",
     contactNumber: "",
+    website: "",
     location: {
       lat: 13.728191, lng: 100.774637, address: ""
     },
@@ -60,11 +62,10 @@ export default function DealerSignUp() {
       if (!response.ok) {
         setFormState("error")
         console.error(`signing up error.`)
-      } else {
-        navigate({
-          to: '/dashboard',
-        })
       }
+      navigate({
+        to: '/dashboard',
+      })
     } catch (error) {
       if (error instanceof Error) {
         setFormState("error")
@@ -109,6 +110,11 @@ export default function DealerSignUp() {
           <div>
             <label className="block font-medium text-gray-700">Contact Number</label>
             <Input name="contactNumber" placeholder="Enter contact number" value={formData.contactNumber} onChange={handleChange} />
+          </div>
+
+          <div>
+            <label className="block font-medium text-gray-700">Website</label>
+            <Input name="contactNumber" placeholder="Enter your website" value={formData.website} onChange={handleChange} />
           </div>
 
           <div className="flex flex-col space-y-2">

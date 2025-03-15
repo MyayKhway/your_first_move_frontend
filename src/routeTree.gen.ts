@@ -11,9 +11,13 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as DashboardImport } from './routes/dashboard'
+import { Route as CarsRouteImport } from './routes/cars/route'
+import { Route as DealerRouteImport } from './routes/_dealer/route'
 import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as CarsCarIdImport } from './routes/cars/$carId'
+import { Route as DealerDashboardImport } from './routes/_dealer/dashboard'
+import { Route as DealerAddCarImport } from './routes/_dealer/add-car'
 import { Route as AuthVerifyEmailImport } from './routes/_auth/verify-email'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
 import { Route as AuthSigninImport } from './routes/_auth/signin'
@@ -23,12 +27,18 @@ import { Route as AuthForgotpassDealerImport } from './routes/_auth/forgotpass-d
 import { Route as AuthForgotpassImport } from './routes/_auth/forgotpass'
 import { Route as AuthDealerSignupImport } from './routes/_auth/dealer-signup'
 import { Route as AuthDealerSigninImport } from './routes/_auth/dealer-signin'
+import { Route as CarsSearchTypeImport } from './routes/cars/search.$type'
 
 // Create/Update Routes
 
-const DashboardRoute = DashboardImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const CarsRouteRoute = CarsRouteImport.update({
+  id: '/cars',
+  path: '/cars',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DealerRouteRoute = DealerRouteImport.update({
+  id: '/_dealer',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -41,6 +51,24 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const CarsCarIdRoute = CarsCarIdImport.update({
+  id: '/$carId',
+  path: '/$carId',
+  getParentRoute: () => CarsRouteRoute,
+} as any)
+
+const DealerDashboardRoute = DealerDashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => DealerRouteRoute,
+} as any)
+
+const DealerAddCarRoute = DealerAddCarImport.update({
+  id: '/add-car',
+  path: '/add-car',
+  getParentRoute: () => DealerRouteRoute,
 } as any)
 
 const AuthVerifyEmailRoute = AuthVerifyEmailImport.update({
@@ -97,6 +125,12 @@ const AuthDealerSigninRoute = AuthDealerSigninImport.update({
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
+const CarsSearchTypeRoute = CarsSearchTypeImport.update({
+  id: '/search/$type',
+  path: '/search/$type',
+  getParentRoute: () => CarsRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -115,11 +149,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardImport
+    '/_dealer': {
+      id: '/_dealer'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof DealerRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/cars': {
+      id: '/cars'
+      path: '/cars'
+      fullPath: '/cars'
+      preLoaderRoute: typeof CarsRouteImport
       parentRoute: typeof rootRoute
     }
     '/_auth/dealer-signin': {
@@ -185,6 +226,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthVerifyEmailImport
       parentRoute: typeof AuthRouteImport
     }
+    '/_dealer/add-car': {
+      id: '/_dealer/add-car'
+      path: '/add-car'
+      fullPath: '/add-car'
+      preLoaderRoute: typeof DealerAddCarImport
+      parentRoute: typeof DealerRouteImport
+    }
+    '/_dealer/dashboard': {
+      id: '/_dealer/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DealerDashboardImport
+      parentRoute: typeof DealerRouteImport
+    }
+    '/cars/$carId': {
+      id: '/cars/$carId'
+      path: '/$carId'
+      fullPath: '/cars/$carId'
+      preLoaderRoute: typeof CarsCarIdImport
+      parentRoute: typeof CarsRouteImport
+    }
+    '/cars/search/$type': {
+      id: '/cars/search/$type'
+      path: '/search/$type'
+      fullPath: '/cars/search/$type'
+      preLoaderRoute: typeof CarsSearchTypeImport
+      parentRoute: typeof CarsRouteImport
+    }
   }
 }
 
@@ -218,10 +287,38 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
 )
 
+interface DealerRouteRouteChildren {
+  DealerAddCarRoute: typeof DealerAddCarRoute
+  DealerDashboardRoute: typeof DealerDashboardRoute
+}
+
+const DealerRouteRouteChildren: DealerRouteRouteChildren = {
+  DealerAddCarRoute: DealerAddCarRoute,
+  DealerDashboardRoute: DealerDashboardRoute,
+}
+
+const DealerRouteRouteWithChildren = DealerRouteRoute._addFileChildren(
+  DealerRouteRouteChildren,
+)
+
+interface CarsRouteRouteChildren {
+  CarsCarIdRoute: typeof CarsCarIdRoute
+  CarsSearchTypeRoute: typeof CarsSearchTypeRoute
+}
+
+const CarsRouteRouteChildren: CarsRouteRouteChildren = {
+  CarsCarIdRoute: CarsCarIdRoute,
+  CarsSearchTypeRoute: CarsSearchTypeRoute,
+}
+
+const CarsRouteRouteWithChildren = CarsRouteRoute._addFileChildren(
+  CarsRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof AuthRouteRouteWithChildren
-  '/dashboard': typeof DashboardRoute
+  '': typeof DealerRouteRouteWithChildren
+  '/cars': typeof CarsRouteRouteWithChildren
   '/dealer-signin': typeof AuthDealerSigninRoute
   '/dealer-signup': typeof AuthDealerSignupRoute
   '/forgotpass': typeof AuthForgotpassRoute
@@ -231,12 +328,16 @@ export interface FileRoutesByFullPath {
   '/signin': typeof AuthSigninRoute
   '/signup': typeof AuthSignupRoute
   '/verify-email': typeof AuthVerifyEmailRoute
+  '/add-car': typeof DealerAddCarRoute
+  '/dashboard': typeof DealerDashboardRoute
+  '/cars/$carId': typeof CarsCarIdRoute
+  '/cars/search/$type': typeof CarsSearchTypeRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof AuthRouteRouteWithChildren
-  '/dashboard': typeof DashboardRoute
+  '': typeof DealerRouteRouteWithChildren
+  '/cars': typeof CarsRouteRouteWithChildren
   '/dealer-signin': typeof AuthDealerSigninRoute
   '/dealer-signup': typeof AuthDealerSignupRoute
   '/forgotpass': typeof AuthForgotpassRoute
@@ -246,13 +347,18 @@ export interface FileRoutesByTo {
   '/signin': typeof AuthSigninRoute
   '/signup': typeof AuthSignupRoute
   '/verify-email': typeof AuthVerifyEmailRoute
+  '/add-car': typeof DealerAddCarRoute
+  '/dashboard': typeof DealerDashboardRoute
+  '/cars/$carId': typeof CarsCarIdRoute
+  '/cars/search/$type': typeof CarsSearchTypeRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteRouteWithChildren
-  '/dashboard': typeof DashboardRoute
+  '/_dealer': typeof DealerRouteRouteWithChildren
+  '/cars': typeof CarsRouteRouteWithChildren
   '/_auth/dealer-signin': typeof AuthDealerSigninRoute
   '/_auth/dealer-signup': typeof AuthDealerSignupRoute
   '/_auth/forgotpass': typeof AuthForgotpassRoute
@@ -262,6 +368,10 @@ export interface FileRoutesById {
   '/_auth/signin': typeof AuthSigninRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_auth/verify-email': typeof AuthVerifyEmailRoute
+  '/_dealer/add-car': typeof DealerAddCarRoute
+  '/_dealer/dashboard': typeof DealerDashboardRoute
+  '/cars/$carId': typeof CarsCarIdRoute
+  '/cars/search/$type': typeof CarsSearchTypeRoute
 }
 
 export interface FileRouteTypes {
@@ -269,7 +379,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
-    | '/dashboard'
+    | '/cars'
     | '/dealer-signin'
     | '/dealer-signup'
     | '/forgotpass'
@@ -279,11 +389,15 @@ export interface FileRouteTypes {
     | '/signin'
     | '/signup'
     | '/verify-email'
+    | '/add-car'
+    | '/dashboard'
+    | '/cars/$carId'
+    | '/cars/search/$type'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | ''
-    | '/dashboard'
+    | '/cars'
     | '/dealer-signin'
     | '/dealer-signup'
     | '/forgotpass'
@@ -293,11 +407,16 @@ export interface FileRouteTypes {
     | '/signin'
     | '/signup'
     | '/verify-email'
+    | '/add-car'
+    | '/dashboard'
+    | '/cars/$carId'
+    | '/cars/search/$type'
   id:
     | '__root__'
     | '/'
     | '/_auth'
-    | '/dashboard'
+    | '/_dealer'
+    | '/cars'
     | '/_auth/dealer-signin'
     | '/_auth/dealer-signup'
     | '/_auth/forgotpass'
@@ -307,19 +426,25 @@ export interface FileRouteTypes {
     | '/_auth/signin'
     | '/_auth/signup'
     | '/_auth/verify-email'
+    | '/_dealer/add-car'
+    | '/_dealer/dashboard'
+    | '/cars/$carId'
+    | '/cars/search/$type'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
-  DashboardRoute: typeof DashboardRoute
+  DealerRouteRoute: typeof DealerRouteRouteWithChildren
+  CarsRouteRoute: typeof CarsRouteRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
-  DashboardRoute: DashboardRoute,
+  DealerRouteRoute: DealerRouteRouteWithChildren,
+  CarsRouteRoute: CarsRouteRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -334,7 +459,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_auth",
-        "/dashboard"
+        "/_dealer",
+        "/cars"
       ]
     },
     "/": {
@@ -354,8 +480,19 @@ export const routeTree = rootRoute
         "/_auth/verify-email"
       ]
     },
-    "/dashboard": {
-      "filePath": "dashboard.tsx"
+    "/_dealer": {
+      "filePath": "_dealer/route.tsx",
+      "children": [
+        "/_dealer/add-car",
+        "/_dealer/dashboard"
+      ]
+    },
+    "/cars": {
+      "filePath": "cars/route.tsx",
+      "children": [
+        "/cars/$carId",
+        "/cars/search/$type"
+      ]
     },
     "/_auth/dealer-signin": {
       "filePath": "_auth/dealer-signin.tsx",
@@ -392,6 +529,22 @@ export const routeTree = rootRoute
     "/_auth/verify-email": {
       "filePath": "_auth/verify-email.tsx",
       "parent": "/_auth"
+    },
+    "/_dealer/add-car": {
+      "filePath": "_dealer/add-car.tsx",
+      "parent": "/_dealer"
+    },
+    "/_dealer/dashboard": {
+      "filePath": "_dealer/dashboard.tsx",
+      "parent": "/_dealer"
+    },
+    "/cars/$carId": {
+      "filePath": "cars/$carId.tsx",
+      "parent": "/cars"
+    },
+    "/cars/search/$type": {
+      "filePath": "cars/search.$type.tsx",
+      "parent": "/cars"
     }
   }
 }
