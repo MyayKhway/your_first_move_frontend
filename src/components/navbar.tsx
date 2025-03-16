@@ -8,7 +8,7 @@ export function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="h-auto flex justify-between items-center m-4 bg-transparent bg-opacity-80 px-[10%] absolute top-0 left-0 w-full">
+    <div className="z-10 h-auto flex justify-between items-center m-4 bg-transparent bg-opacity-80 px-[10%] absolute top-0 left-0 w-full">
       <div>
         <span className="font-[Kanit]-300 font-bold italic text-gray-800 text-md">
           YOUR FIRST MOVE

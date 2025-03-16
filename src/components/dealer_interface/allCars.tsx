@@ -10,7 +10,7 @@ function CarsList() {
     <div className="bg-transparent min-h-screen">
       <BackgroundDecorations />
 
-      <div className="px-10 py-8 m-4 shadow-pink-200">
+      <div className="px-10 py-15 m-4 shadow-pink-200">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900">Manage Your Cars</h1>
           <Button asChild className="px-6 py-2 bg-blue-900 text-white text-lg rounded-lg hover:bg-blue-950">

@@ -3,10 +3,12 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { AuthProvider } from './authContext.tsx'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
 import { routeTree } from './routeTree.gen.ts'
 
 const router = createRouter({ routeTree })
+const queryClient = new QueryClient()
 
 declare module '@tanstack/react-router' {
   interface Register {
@@ -17,7 +19,9 @@ declare module '@tanstack/react-router' {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </AuthProvider>
   </StrictMode>,
 )

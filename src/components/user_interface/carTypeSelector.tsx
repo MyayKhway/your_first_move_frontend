@@ -5,7 +5,7 @@ const carTypes = [
   {
     name: "EV",
     icon: <Zap className="h-6 w-6" />,
-    href: "cars/category/ev",
+    href: "cars/search/ev",
   },
   {
     name: "SUV",

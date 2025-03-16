@@ -8,9 +8,7 @@ import { getRouteApi } from "@tanstack/react-router"
 
 export default function CarDetails() {
   const routeApi = getRouteApi('/cars/$carId')
-  const { dealer, CarDetails } = routeApi.useLoaderData()
-  console.log(dealer)
-  console.log(CarDetails)
+  const { dealer, CarDetails, reviews } = routeApi.useLoaderData()
   return (
     <div className="container mx-auto px-4 pb-16 pt-20">
       <CarGallery mainPicUrl={CarDetails.mainPicUrl} thumbnails={[...CarDetails.otherImageUrls]} />
@@ -18,14 +16,15 @@ export default function CarDetails() {
       <br></br>
       <div className="bg-blue-100 p-6 rounded-lg">
         <DescriptionSection />
-        <KeyFeatures />
+        <KeyFeatures features={CarDetails.features} />
       </div>
       <br></br>
 
       {/* Reviews and Dealership */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <ReviewsSection />
+        <ReviewsSection reviews={reviews} />
         <DealershipInfo
+          name={dealer.name}
           website={dealer.website}
           email={dealer.email}
           contactNumber={dealer.contactNumber}

@@ -12,7 +12,7 @@ export function DealerNavBar() {
   const navigate = useNavigate()
 
   return (
-    <div className="h-auto flex justify-between items-center m-4 bg-transparent bg-opacity-80 px-[10%] absolute sticky top-0 left-0 w-screen">
+    <div className="h-auto flex justify-between items-center m-4 bg-transparent bg-opacity-80 px-[10%] absolute top-0 left-0 w-screen">
       <div>
         <span className="font-[Kanit]-300 font-bold italic text-gray-800 text-md">
           YOUR FIRST MOVE

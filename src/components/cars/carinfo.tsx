@@ -1,5 +1,3 @@
-import { Heart, Share2, } from "lucide-react";
-
 interface CarInfoPropsType {
   name: string,
   price: number,
@@ -22,16 +20,16 @@ export default function CarInfo({ name, price }: CarInfoPropsType) {
       </div>
 
       {/* Save and Share buttons on the right */}
-      <div className="flex gap-3">
-        <button className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-800">
-          <Heart size={20} className="text-gray-400" />
-          <span className="text-base">Save</span>
-        </button>
-        <button className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-800">
-          <Share2 size={20} className="text-gray-400" />
-          <span className="text-base">Share</span>
-        </button>
-      </div>
+      {/* <div className="flex gap-3"> */}
+      {/*   <button className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-800"> */}
+      {/*     <Heart size={20} className="text-gray-400" /> */}
+      {/*     <span className="text-base">Save</span> */}
+      {/*   </button> */}
+      {/*   <button className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-800"> */}
+      {/*     <Share2 size={20} className="text-gray-400" /> */}
+      {/*     <span className="text-base">Share</span> */}
+      {/*   </button> */}
+      {/* </div> */}
     </div>
   );
 }

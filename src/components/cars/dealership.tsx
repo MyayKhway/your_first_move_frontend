@@ -1,19 +1,20 @@
 import { Globe, Mail, Phone, MapPin } from "lucide-react";
+import MapComponent from "./locationMap";
 
 interface DealershipInfoPropsType {
+  name: string,
   website: string,
   email: string,
   contactNumber: string,
   address: string,
-  location: { lat: number, lng: number }
+  location: [lat: number, lng: number]
 }
 
-export default function DealershipInfo({ website, email, contactNumber, address, location }: DealershipInfoPropsType) {
-  console.log(location)
+export default function DealershipInfo({ name, website, email, contactNumber, address, location }: DealershipInfoPropsType) {
   return (
     <div className="bg-white rounded-xl shadow-md p-6 max-w-sm mx-auto">
       <h2 className="text-xl font-bold text-blue-900 mb-4">
-        Recommend Locate Dealership
+        You can buy the car here!
       </h2>
 
       <div className="space-y-3">
@@ -47,6 +48,7 @@ export default function DealershipInfo({ website, email, contactNumber, address,
           <span className="text-gray-700">{address}</span>
         </div>
 
+        <MapComponent latitude={location[0]} longitude={location[1]} zoom={13} title={name} />
         {/* Interactive Map */}
         {/* <div className="mt-4 rounded-lg overflow-hidden border border-gray-300"> */}
         {/*   <iframe */}

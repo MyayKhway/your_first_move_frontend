@@ -13,9 +13,17 @@ export const Route = createFileRoute('/cars/$carId')({
         method: "GET",
         credentials: "include"
       })
+      const reviewRes = await fetch(`${baseUrl}/car/reviews/${params.carId}`, {
+        method: "GET",
+        credentials: "include"
+      })
+      if (!res.ok || !res2.ok || !reviewRes.ok) {
+        throw Error(`Error fetching data for route.`)
+      }
       const dealerData = await res2.json()
       const data = await res.json()
-      return { dealer: dealerData, CarDetails: data }
+      const reviews = await reviewRes.json()
+      return { dealer: dealerData, CarDetails: data, reviews }
     } catch (err) {
       throw Error(`Error in fetching data for route ${err}`)
     }

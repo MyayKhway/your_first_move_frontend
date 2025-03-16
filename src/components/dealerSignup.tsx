@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
 import LocationPicker from "./mapComponent";
 import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/authContext";
 
 interface FormDataType {
   name: string,
@@ -19,6 +20,7 @@ interface FormDataType {
 }
 export default function DealerSignUp() {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false);
   const [formState, setFormState] = useState<string>()
   const [formData, setFormData] = useState<FormDataType>({
@@ -63,6 +65,14 @@ export default function DealerSignUp() {
         setFormState("error")
         console.error(`signing up error.`)
       }
+      const { user } = await response.json()
+      login({
+        id: parseInt(user.id),
+        userName: user.userName,
+        email: user.email,
+        verified: user.verified,
+        type: "dealer"
+      })
       navigate({
         to: '/dashboard',
       })
@@ -114,7 +124,7 @@ export default function DealerSignUp() {
 
           <div>
             <label className="block font-medium text-gray-700">Website</label>
-            <Input name="contactNumber" placeholder="Enter your website" value={formData.website} onChange={handleChange} />
+            <Input name="website" placeholder="Enter your website" value={formData.website} onChange={handleChange} />
           </div>
 
           <div className="flex flex-col space-y-2">
