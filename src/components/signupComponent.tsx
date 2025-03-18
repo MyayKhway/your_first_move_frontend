@@ -4,9 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/authContext";
 
 export default function SignUpForm() {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false);
   const [formState, setFormState] = useState<string>()
   const [formData, setFormData] = useState({
@@ -41,6 +43,14 @@ export default function SignUpForm() {
         console.error(`Invalid Credentials.`)
         return
       } else {
+        const { user } = await response.json()
+        login({
+          id: parseInt(user.id),
+          userName: user.userName,
+          email: user.email,
+          verified: user.verified,
+          type: "dealer"
+        })
         navigate({
           to: '/dashboard',
         })
