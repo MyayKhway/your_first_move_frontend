@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export function AuthNavBar() {
   const [isSignInDropdownOpen, setIsSignInDropdownOpen] = useState(false);
@@ -30,10 +31,10 @@ export function AuthNavBar() {
       {/* Desktop Navigation - hidden on small screens */}
       <div className="hidden md:relative md:flex md:items-center md:space-x-6">
         <Button variant={"link"} className="text-gray-600 font-semibold hover:text-gray-900 transition">
-          Home
+          <Link to="/">Home</Link>
         </Button>
         <Button variant={"link"} className="text-gray-600 font-semibold hover:text-gray-900 transition">
-          Car Dealer Locations
+          <Link to="/cars/all">Cars</Link>
         </Button>
         <div className="relative flex space-x-2">
           <Button

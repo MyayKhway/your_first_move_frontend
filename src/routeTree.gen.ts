@@ -15,6 +15,7 @@ import { Route as CarsRouteImport } from './routes/cars/route'
 import { Route as DealerRouteImport } from './routes/_dealer/route'
 import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as CarsAllImport } from './routes/cars/all'
 import { Route as CarsCarIdImport } from './routes/cars/$carId'
 import { Route as DealerDashboardImport } from './routes/_dealer/dashboard'
 import { Route as DealerAddCarImport } from './routes/_dealer/add-car'
@@ -51,6 +52,12 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const CarsAllRoute = CarsAllImport.update({
+  id: '/all',
+  path: '/all',
+  getParentRoute: () => CarsRouteRoute,
 } as any)
 
 const CarsCarIdRoute = CarsCarIdImport.update({
@@ -247,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarsCarIdImport
       parentRoute: typeof CarsRouteImport
     }
+    '/cars/all': {
+      id: '/cars/all'
+      path: '/all'
+      fullPath: '/cars/all'
+      preLoaderRoute: typeof CarsAllImport
+      parentRoute: typeof CarsRouteImport
+    }
     '/cars/search/$type': {
       id: '/cars/search/$type'
       path: '/search/$type'
@@ -303,11 +317,13 @@ const DealerRouteRouteWithChildren = DealerRouteRoute._addFileChildren(
 
 interface CarsRouteRouteChildren {
   CarsCarIdRoute: typeof CarsCarIdRoute
+  CarsAllRoute: typeof CarsAllRoute
   CarsSearchTypeRoute: typeof CarsSearchTypeRoute
 }
 
 const CarsRouteRouteChildren: CarsRouteRouteChildren = {
   CarsCarIdRoute: CarsCarIdRoute,
+  CarsAllRoute: CarsAllRoute,
   CarsSearchTypeRoute: CarsSearchTypeRoute,
 }
 
@@ -331,6 +347,7 @@ export interface FileRoutesByFullPath {
   '/add-car': typeof DealerAddCarRoute
   '/dashboard': typeof DealerDashboardRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/cars/all': typeof CarsAllRoute
   '/cars/search/$type': typeof CarsSearchTypeRoute
 }
 
@@ -350,6 +367,7 @@ export interface FileRoutesByTo {
   '/add-car': typeof DealerAddCarRoute
   '/dashboard': typeof DealerDashboardRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/cars/all': typeof CarsAllRoute
   '/cars/search/$type': typeof CarsSearchTypeRoute
 }
 
@@ -371,6 +389,7 @@ export interface FileRoutesById {
   '/_dealer/add-car': typeof DealerAddCarRoute
   '/_dealer/dashboard': typeof DealerDashboardRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/cars/all': typeof CarsAllRoute
   '/cars/search/$type': typeof CarsSearchTypeRoute
 }
 
@@ -392,6 +411,7 @@ export interface FileRouteTypes {
     | '/add-car'
     | '/dashboard'
     | '/cars/$carId'
+    | '/cars/all'
     | '/cars/search/$type'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -410,6 +430,7 @@ export interface FileRouteTypes {
     | '/add-car'
     | '/dashboard'
     | '/cars/$carId'
+    | '/cars/all'
     | '/cars/search/$type'
   id:
     | '__root__'
@@ -429,6 +450,7 @@ export interface FileRouteTypes {
     | '/_dealer/add-car'
     | '/_dealer/dashboard'
     | '/cars/$carId'
+    | '/cars/all'
     | '/cars/search/$type'
   fileRoutesById: FileRoutesById
 }
@@ -491,6 +513,7 @@ export const routeTree = rootRoute
       "filePath": "cars/route.tsx",
       "children": [
         "/cars/$carId",
+        "/cars/all",
         "/cars/search/$type"
       ]
     },
@@ -540,6 +563,10 @@ export const routeTree = rootRoute
     },
     "/cars/$carId": {
       "filePath": "cars/$carId.tsx",
+      "parent": "/cars"
+    },
+    "/cars/all": {
+      "filePath": "cars/all.tsx",
       "parent": "/cars"
     },
     "/cars/search/$type": {

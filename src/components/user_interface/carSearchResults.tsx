@@ -1,9 +1,14 @@
 import CarCard from "@/components/user_interface/carResultCard";
-import Pagination from "@/components/user_interface/pagination";
-import { getRouteApi } from "@tanstack/react-router";
+import { getRouteApi, useRouterState } from "@tanstack/react-router";
 
 const CarSearchResults = () => {
-  const routeApi = getRouteApi('/cars/search/$type')
+  const url = useRouterState().location.pathname.split('/')
+  let routeApi;
+  if (url[url.length - 1] == 'all') {
+    routeApi = getRouteApi('/cars/all')
+  } else {
+    routeApi = getRouteApi('/cars/search/$type')
+  }
   const { carResults } = routeApi.useLoaderData()
 
   return (
@@ -13,7 +18,6 @@ const CarSearchResults = () => {
           <h1 className="text-xl font-bold text-blue-900">
             Your Car Search Results
           </h1>
-          <Pagination />
         </div>
         <div className="flex flex-col gap-5 items-center justify-center">
           {carResults.map((car, index) => (

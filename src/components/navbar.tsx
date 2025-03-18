@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
 import { useAuth } from "@/authContext";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 export function NavBar() {
   const [isSignInDropdownOpen, setIsSignInDropdownOpen] = useState(false);
@@ -12,7 +12,7 @@ export function NavBar() {
   const navigate = useNavigate()
 
   return (
-    <div className="z-10 h-auto flex justify-between items-center m-4 bg-transparent bg-opacity-80 px-[10%] absolute top-0 left-0 w-full">
+    <div className="z-100 h-auto flex justify-between items-center m-4 bg-transparent bg-opacity-80 px-[10%] absolute top-0 left-0 w-full">
       <div>
         <span className="font-[Kanit]-300 font-bold italic text-gray-800 text-md">
           YOUR FIRST MOVE
@@ -34,6 +34,12 @@ export function NavBar() {
       {/* Desktop Navigation - hidden on small screens */}
       <div className="hidden md:relative md:flex md:items-center md:space-x-6">
         <div className="relative flex space-x-2">
+          <Button variant={"link"} className="text-gray-600 font-semibold hover:text-gray-900 transition">
+            <Link to="/">Home</Link>
+          </Button>
+          <Button variant={"link"} className="text-gray-600 font-semibold hover:text-gray-900 transition">
+            <Link to="/cars/all">Cars</Link>
+          </Button>
           {!isAuthenticated() &&
             <Button
               onClick={() => setIsSignInDropdownOpen(!isSignInDropdownOpen)}
