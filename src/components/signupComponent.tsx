@@ -52,7 +52,7 @@ export default function SignUpForm() {
           type: "dealer"
         })
         navigate({
-          to: '/dashboard',
+          to: '/',
         })
       }
     } catch (error) {

@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
+import { useAuth } from "@/authContext";
+import { useNavigate } from "@tanstack/react-router";
 
 export function NavBar() {
   const [isSignInDropdownOpen, setIsSignInDropdownOpen] = useState(false);
   const [isSignUpDropdownOpen, setIsSignUpDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { logout, isAuthenticated } = useAuth()
+  const navigate = useNavigate()
 
   return (
     <div className="z-10 h-auto flex justify-between items-center m-4 bg-transparent bg-opacity-80 px-[10%] absolute top-0 left-0 w-full">
@@ -30,13 +34,15 @@ export function NavBar() {
       {/* Desktop Navigation - hidden on small screens */}
       <div className="hidden md:relative md:flex md:items-center md:space-x-6">
         <div className="relative flex space-x-2">
-          <Button
-            onClick={() => setIsSignInDropdownOpen(!isSignInDropdownOpen)}
-            className="bg-blue-900 text-white px-4 py-2 rounded-lg shadow-md flex items-center space-x-2 hover:bg-blue-950 transition"
-          >
-            <span>Sign In</span>
-            {isSignInDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </Button>
+          {!isAuthenticated() &&
+            <Button
+              onClick={() => setIsSignInDropdownOpen(!isSignInDropdownOpen)}
+              className="bg-blue-900 text-white px-4 py-2 rounded-lg shadow-md flex items-center space-x-2 hover:bg-blue-950 transition"
+            >
+              <span>Sign In</span>
+              {isSignInDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </Button>
+          }
           {isSignInDropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 text-gray-900">
               <a href="/signin" className="block px-4 py-2 hover:bg-gray-100">
@@ -48,13 +54,15 @@ export function NavBar() {
               </a>
             </div>
           )}
-          <Button
-            onClick={() => setIsSignUpDropdownOpen(!isSignUpDropdownOpen)}
-            className="bg-blue-900 text-white px-4 py-2 rounded-lg shadow-md flex items-center space-x-2 hover:bg-blue-950 transition"
-          >
-            <span>Sign Up</span>
-            {isSignUpDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </Button>
+          {!isAuthenticated() &&
+            <Button
+              onClick={() => setIsSignUpDropdownOpen(!isSignUpDropdownOpen)}
+              className="bg-blue-900 text-white px-4 py-2 rounded-lg shadow-md flex items-center space-x-2 hover:bg-blue-950 transition"
+            >
+              <span>Sign Up</span>
+              {isSignUpDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </Button>
+          }
           {isSignUpDropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 text-gray-900">
               <a href="/signup" className="block px-4 py-2 hover:bg-gray-100">
@@ -66,6 +74,20 @@ export function NavBar() {
               </a>
             </div>
           )}
+          {isAuthenticated() &&
+            <Button
+              variant="outline"
+              onClick={() => {
+                logout()
+                navigate({
+                  to: "/"
+                })
+              }}
+              className="bg-blue-900 text-white px-4 py-2 rounded-3xl shadow-md flex items-center justify-between hover:bg-blue-950 transition"
+            >
+              <span>Log out</span>
+            </Button>
+          }
         </div>
       </div>
 
@@ -78,13 +100,15 @@ export function NavBar() {
           <Button variant={"link"} className="text-gray-600 font-semibold hover:text-gray-900 transition justify-start">
             Car Dealer Locations
           </Button>
-          <Button
-            onClick={() => setIsSignInDropdownOpen(!isSignInDropdownOpen)}
-            className="bg-blue-900 text-white px-4 py-2 rounded-lg shadow-md flex items-center justify-between hover:bg-blue-950 transition"
-          >
-            <span>Sign In</span>
-            {isSignInDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </Button>
+          {!isAuthenticated() &&
+            <Button
+              onClick={() => setIsSignUpDropdownOpen(!isSignUpDropdownOpen)}
+              className="bg-blue-900 text-white px-4 py-2 rounded-lg shadow-md flex items-center space-x-2 hover:bg-blue-950 transition"
+            >
+              <span>Sign Up</span>
+              {isSignUpDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </Button>
+          }
           {isSignInDropdownOpen && (
             <div className="bg-gray-100 rounded-lg">
               <a href="/signin" className="block px-4 py-2 hover:bg-gray-200 rounded-t-lg">
@@ -96,14 +120,30 @@ export function NavBar() {
               </a>
             </div>
           )}
-          <Button
-            variant="outline"
-            onClick={() => setIsSignUpDropdownOpen(!isSignUpDropdownOpen)}
-            className="bg-blue-900 text-white px-4 py-2 rounded-lg shadow-md flex items-center justify-between hover:bg-blue-950 transition"
-          >
-            <span>Sign Up</span>
-            {isSignUpDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </Button>
+          {!isAuthenticated() &&
+            <Button
+              variant="outline"
+              onClick={() => setIsSignUpDropdownOpen(!isSignUpDropdownOpen)}
+              className="bg-blue-900 text-white px-4 py-2 rounded-lg shadow-md flex items-center justify-between hover:bg-blue-950 transition"
+            >
+              <span>Sign Up</span>
+              {isSignUpDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </Button>
+          }
+          {isAuthenticated() &&
+            <Button
+              variant="outline"
+              onClick={() => {
+                logout()
+                navigate({
+                  to: "/"
+                })
+              }}
+              className="bg-blue-900 text-white px-4 py-2 rounded-lg shadow-md flex items-center justify-between hover:bg-blue-950 transition"
+            >
+              <span>Log out</span>
+            </Button>
+          }
           {isSignUpDropdownOpen && (
             <div className="bg-gray-100 rounded-lg">
               <a href="/signup" className="block px-4 py-2 hover:bg-gray-200 rounded-t-lg">
