@@ -4,7 +4,10 @@ import CarsList from '@/components/dealer_interface/allCars'
 
 export const Route = createFileRoute('/_dealer/dashboard')({
   loader: async () => {
-    const { id } = JSON.parse(localStorage.getItem("user") || "")
+    const storedUser = localStorage.getItem("user")
+    const { id } = storedUser ? JSON.parse(storedUser).id : null
+    if (!id)
+      return []
     try {
       const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
       const response = await fetch(`${baseUrl}/car/all?` + new URLSearchParams({
