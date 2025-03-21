@@ -3,10 +3,10 @@ import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Route } from '@/routes/_auth/resetpass'
+import { Route } from "@/routes/_auth/resetpass-dealer"
 import { toast } from "sonner"
 
-export default function ResetPass() {
+export default function ResetPassDealer() {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState("")
@@ -28,7 +28,7 @@ export default function ResetPass() {
     }
 
     const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
-    const res = await fetch(`${baseUrl}/auth/reset-pass-user?token=${token}`, {
+    const res = await fetch(`${baseUrl}/auth/reset-pass-dealer?token=${token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -46,11 +46,6 @@ export default function ResetPass() {
 
     toast.success("Your password has been successfully updated")
 
-    setPassword("")
-    setConfirmPassword("")
-    setError("")
-
-    // Reset form
     setPassword("")
     setConfirmPassword("")
     setError("")

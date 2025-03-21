@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export default function ForgotPassword() {
+export default function ForgotPasswordDealer() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -12,16 +12,16 @@ export default function ForgotPassword() {
     setLoading(true);
     setMessage("");
     const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
-    await fetch(`${baseUrl}/auth/req-reset-pass`, {
+    const res = await fetch(`${baseUrl}/auth/req-reset-pass-dealer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         email: email
-      }),
-      credentials: "include"
+      })
     })
+    console.log(res.status)
     setLoading(false)
     setMessage("A link for resetting password has been sent to the account.")
   };
