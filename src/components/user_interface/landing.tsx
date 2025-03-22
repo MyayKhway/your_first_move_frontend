@@ -1,7 +1,6 @@
 import type React from "react"
 
 import { useState, useRef } from "react"
-import { useNavigate } from "@tanstack/react-router"
 import { motion, AnimatePresence } from "framer-motion"
 import { Search } from "lucide-react"
 import CarTypeSelector from "@/components/user_interface/carTypeSelector"
@@ -10,18 +9,23 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isAnimating, setIsAnimating] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-  const navigate = useNavigate()
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!searchQuery.trim()) return
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
+    await fetch(`${baseUrl}/ai-test`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        searchQuery
+      }),
+      credentials: "include"
+    })
 
     setIsAnimating(true)
-
-    // Navigate after animation completes
-    setTimeout(() => {
-      navigate({ to: `/results?query=${encodeURIComponent(searchQuery)}` })
-    }, 600) // Match animation duration
   }
 
   return (

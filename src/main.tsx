@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from './authContext.tsx'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
 import { routeTree } from './routeTree.gen.ts'
+import NotFoundDefault from './components/notFound.tsx'
 
 const router = createRouter({
   routeTree,
@@ -16,7 +17,8 @@ const router = createRouter({
     isAuthenticated: () => false,
     isUser: () => false,
     isDealer: () => false,
-  }
+  },
+  defaultNotFoundComponent: NotFoundDefault
 })
 const queryClient = new QueryClient()
 
