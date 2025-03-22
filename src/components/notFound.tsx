@@ -1,4 +1,4 @@
-export default function NotFound()  {
+export default function NotFoundDefault()  {
   return (
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center text-center px-4"
