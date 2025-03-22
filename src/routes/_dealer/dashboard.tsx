@@ -1,11 +1,33 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import CarsList from '@/components/dealer_interface/allCars'
 
 
 export const Route = createFileRoute('/_dealer/dashboard')({
+  beforeLoad: ({ context, location }) => {
+    if (!context.isAuthenticated()) {
+      throw redirect({
+        to: '/signin',
+        replace: true,
+        search: {
+          redirect: location.href
+        }
+      })
+    }
+    if (!context.isDealer()) {
+      throw redirect({
+        to: '/',
+        replace: true,
+        search: {
+          redirect: location.href
+        }
+      })
+    }
+  },
+  preload: true,
   loader: async () => {
     const storedUser = localStorage.getItem("user")
-    const { id } = storedUser ? JSON.parse(storedUser).id : null
+    const user = storedUser ? JSON.parse(storedUser) : null
+    const id = user ? user.id : null
     if (!id)
       return []
     try {
@@ -16,8 +38,10 @@ export const Route = createFileRoute('/_dealer/dashboard')({
         method: "GET",
         credentials: "include",
       })
-      const resObj = response.json()
-      return (resObj)
+      if (!response.ok)
+        return []
+      const cars = response.json()
+      return (cars)
 
     } catch (err) {
       throw Error(`Error fetching for this route. ${err}`)

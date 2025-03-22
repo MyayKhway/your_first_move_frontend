@@ -10,15 +10,17 @@ export interface User {
 }
 
 // Define AuthContext data and methods
-interface AuthContextType {
+export interface AuthContextType {
   user: User | null;
   login: (userData: User) => void;
   logout: () => void;
   isAuthenticated: () => boolean;
+  isUser: () => boolean;
+  isDealer: () => boolean;
 }
 
 // Create context with default values
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // AuthProvider props type (ReactNode allows us to use this component as a wrapper)
 interface AuthProviderProps {
@@ -51,9 +53,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Check if user is authenticated
   const isAuthenticated = () => user != null;
+  const isUser = () => user?.type === "user"
+  const isDealer = () => user?.type === "dealer"
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated, isUser, isDealer }}>
       {children}
     </AuthContext.Provider>
   );
