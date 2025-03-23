@@ -4,17 +4,20 @@ import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Search } from "lucide-react"
 import CarTypeSelector from "@/components/user_interface/carTypeSelector"
+import { toast } from "sonner"
+import { useNavigate } from "@tanstack/react-router"
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isAnimating, setIsAnimating] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const navigate = useNavigate()
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!searchQuery.trim()) return
     const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
-    await fetch(`${baseUrl}/ai-test`, {
+    const response = await fetch(`${baseUrl}/ai-query`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -24,8 +27,25 @@ export default function Home() {
       }),
       credentials: "include"
     })
-
-    setIsAnimating(true)
+    if (!response.ok) {
+      toast.error('Error querying your-first-move AI')
+      navigate({
+        to: '/',
+        replace: true,
+      })
+    } else {
+      const { reason, carRecommendations } = await response.json()
+      toast.success(`Successfully queried your-first-move AI`)
+      setIsAnimating(true)
+      navigate({
+        to: '/cars/ai-recommendations',
+        replace: true,
+        state: {
+          reason: reason,
+          carRecommendations: carRecommendations
+        }
+      })
+    }
   }
 
   return (
