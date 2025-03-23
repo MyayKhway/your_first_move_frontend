@@ -16,6 +16,7 @@ import { Route as DealerRouteImport } from './routes/_dealer/route'
 import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as CarsAllImport } from './routes/cars/all'
+import { Route as CarsAiRecommendationsImport } from './routes/cars/ai-recommendations'
 import { Route as CarsCarIdImport } from './routes/cars/$carId'
 import { Route as DealerDashboardImport } from './routes/_dealer/dashboard'
 import { Route as DealerAddCarImport } from './routes/_dealer/add-car'
@@ -57,6 +58,12 @@ const IndexRoute = IndexImport.update({
 const CarsAllRoute = CarsAllImport.update({
   id: '/all',
   path: '/all',
+  getParentRoute: () => CarsRouteRoute,
+} as any)
+
+const CarsAiRecommendationsRoute = CarsAiRecommendationsImport.update({
+  id: '/ai-recommendations',
+  path: '/ai-recommendations',
   getParentRoute: () => CarsRouteRoute,
 } as any)
 
@@ -254,6 +261,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarsCarIdImport
       parentRoute: typeof CarsRouteImport
     }
+    '/cars/ai-recommendations': {
+      id: '/cars/ai-recommendations'
+      path: '/ai-recommendations'
+      fullPath: '/cars/ai-recommendations'
+      preLoaderRoute: typeof CarsAiRecommendationsImport
+      parentRoute: typeof CarsRouteImport
+    }
     '/cars/all': {
       id: '/cars/all'
       path: '/all'
@@ -317,12 +331,14 @@ const DealerRouteRouteWithChildren = DealerRouteRoute._addFileChildren(
 
 interface CarsRouteRouteChildren {
   CarsCarIdRoute: typeof CarsCarIdRoute
+  CarsAiRecommendationsRoute: typeof CarsAiRecommendationsRoute
   CarsAllRoute: typeof CarsAllRoute
   CarsSearchTypeRoute: typeof CarsSearchTypeRoute
 }
 
 const CarsRouteRouteChildren: CarsRouteRouteChildren = {
   CarsCarIdRoute: CarsCarIdRoute,
+  CarsAiRecommendationsRoute: CarsAiRecommendationsRoute,
   CarsAllRoute: CarsAllRoute,
   CarsSearchTypeRoute: CarsSearchTypeRoute,
 }
@@ -347,6 +363,7 @@ export interface FileRoutesByFullPath {
   '/add-car': typeof DealerAddCarRoute
   '/dashboard': typeof DealerDashboardRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/cars/ai-recommendations': typeof CarsAiRecommendationsRoute
   '/cars/all': typeof CarsAllRoute
   '/cars/search/$type': typeof CarsSearchTypeRoute
 }
@@ -367,6 +384,7 @@ export interface FileRoutesByTo {
   '/add-car': typeof DealerAddCarRoute
   '/dashboard': typeof DealerDashboardRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/cars/ai-recommendations': typeof CarsAiRecommendationsRoute
   '/cars/all': typeof CarsAllRoute
   '/cars/search/$type': typeof CarsSearchTypeRoute
 }
@@ -389,6 +407,7 @@ export interface FileRoutesById {
   '/_dealer/add-car': typeof DealerAddCarRoute
   '/_dealer/dashboard': typeof DealerDashboardRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/cars/ai-recommendations': typeof CarsAiRecommendationsRoute
   '/cars/all': typeof CarsAllRoute
   '/cars/search/$type': typeof CarsSearchTypeRoute
 }
@@ -411,6 +430,7 @@ export interface FileRouteTypes {
     | '/add-car'
     | '/dashboard'
     | '/cars/$carId'
+    | '/cars/ai-recommendations'
     | '/cars/all'
     | '/cars/search/$type'
   fileRoutesByTo: FileRoutesByTo
@@ -430,6 +450,7 @@ export interface FileRouteTypes {
     | '/add-car'
     | '/dashboard'
     | '/cars/$carId'
+    | '/cars/ai-recommendations'
     | '/cars/all'
     | '/cars/search/$type'
   id:
@@ -450,6 +471,7 @@ export interface FileRouteTypes {
     | '/_dealer/add-car'
     | '/_dealer/dashboard'
     | '/cars/$carId'
+    | '/cars/ai-recommendations'
     | '/cars/all'
     | '/cars/search/$type'
   fileRoutesById: FileRoutesById
@@ -513,6 +535,7 @@ export const routeTree = rootRoute
       "filePath": "cars/route.tsx",
       "children": [
         "/cars/$carId",
+        "/cars/ai-recommendations",
         "/cars/all",
         "/cars/search/$type"
       ]
@@ -563,6 +586,10 @@ export const routeTree = rootRoute
     },
     "/cars/$carId": {
       "filePath": "cars/$carId.tsx",
+      "parent": "/cars"
+    },
+    "/cars/ai-recommendations": {
+      "filePath": "cars/ai-recommendations.tsx",
       "parent": "/cars"
     },
     "/cars/all": {
