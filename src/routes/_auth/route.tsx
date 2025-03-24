@@ -7,7 +7,6 @@ export const Route = createFileRoute('/_auth')({
 })
 
 export function AuthLayout() {
-  console.log('auth index rendered')
   return (
     <div>
       <AuthNavBar />
