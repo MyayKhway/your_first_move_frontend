@@ -1,66 +1,38 @@
 import type React from "react"
 
-import { useState, useRef, useEffect} from "react"
-import { motion, AnimatePresence, useInView, useAnimation} from "framer-motion"
+import { useState, useRef, useEffect } from "react"
+import { motion, AnimatePresence, useInView, useAnimation } from "framer-motion"
 import { Search } from "lucide-react"
 import CarTypeSelector from "@/components/user_interface/carTypeSelector"
 import { toast } from "sonner"
-import { useNavigate } from "@tanstack/react-router"
+import { getRouteApi, useNavigate } from "@tanstack/react-router"
 import LoadingSpinner from "../loadingSpinner"
+import KeyFeatures from "../cars/keyfeature"
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isAnimating, setIsAnimating] = useState(false)
   const [selectedCar, setSelectedCar] = useState(0)
   const ref = useRef(null)
-  const isinView = useInView(ref, {once: true})
+  const isinView = useInView(ref, { once: true })
   const mainControl = useAnimation()
   const inputRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  
+  const routeApi = getRouteApi('/')
+  const { featuredCars } = routeApi.useLoaderData()
+
   useEffect(() => {
     if (isinView) {
       mainControl.start("visible")
     }
-  },[isinView])
-
-  const featuredCars = [
-    {
-      id: 1,
-      name: "2025 Polestar 3",
-      description: "The electric SUV that drives like a sports car. Available now.",
-      image: "/placeholder.svg?height=400&width=600",
-      thumbnail: "/placeholder.svg?height=100&width=150",
-    },
-    {
-      id: 2,
-      name: "2025 Polestar 3",
-      description: "Premium electric performance SUV with dual motors and AWD.",
-      image: "/placeholder.svg?height=400&width=600",
-      thumbnail: "/placeholder.svg?height=100&width=150",
-    },
-    {
-      id: 3,
-      name: "2025 Hyundai IONIQ 5",
-      description: "Award-winning electric crossover with futuristic design and fast charging.",
-      image: "/placeholder.svg?height=400&width=600",
-      thumbnail: "/placeholder.svg?height=100&width=150",
-    },
-    {
-      id: 4,
-      name: "2025 Ford F-150 Lightning",
-      description: "All-electric pickup with incredible power and innovative features.",
-      image: "/placeholder.svg?height=400&width=600",
-      thumbnail: "/placeholder.svg?height=100&width=150",
-    },
-  ]
+  }, [isinView])
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
-  
+
 
     if (!searchQuery.trim()) return
     const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
@@ -130,7 +102,7 @@ export default function Home() {
                       }
                     }}
                   />
-                  <LoadingSpinner />
+                  {loading && <LoadingSpinner />}
                 </div>
               </motion.form>
             ) : null}
@@ -150,21 +122,21 @@ export default function Home() {
 
       {/* Car type selector section */}
       <div className="container mx-auto px-4 py-12 mb-20">
-        <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-        <h2 className="text-2xl font-semibold text-center mb-10">Search By Type</h2>
-        <CarTypeSelector />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-2xl font-semibold text-center mb-10">Search By Type</h2>
+          <CarTypeSelector />
         </motion.div>
       </div>
 
 
       {/* Featured Cars Section */}
       <div ref={ref} className="container margin-top: 100px mx-auto px-4 py-8 -mt-8">
-      <h2 className="text-2xl font-semibold text-center mb-10">Featured Cars</h2>
-        <motion.div 
+        <h2 className="text-2xl font-semibold text-center mb-10">Featured Cars</h2>
+        <motion.div
           initial="invisible"
           animate={mainControl}
           transition={{ duration: 0.5 }}
@@ -175,7 +147,7 @@ export default function Home() {
           className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl overflow-hidden shadow-lg mb-12"
         >
           <AnimatePresence mode="wait">
-            <motion.div 
+            <motion.div
               key={selectedCar}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -184,13 +156,15 @@ export default function Home() {
               className="grid grid-cols-1 md:grid-cols-2 gap-6"
             >
               <div className="p-8">
+                {/* for make and model */}
                 <div className="text-sm text-gray-500 mb-2">YFM SELECT</div>
-                <h2 className="text-3xl font-bold mb-4">{featuredCars[selectedCar].name}</h2>
-                <p className="text-lg">{featuredCars[selectedCar].description}</p>
+                <h2 className="text-3xl font-bold mb-4">{featuredCars[selectedCar].make} {featuredCars[selectedCar].model}</h2>
+                {/* for features */}
+                <KeyFeatures features={featuredCars[selectedCar].features} />
               </div>
               <div className="relative h-64 md:h-auto">
                 <img
-                  src={featuredCars[selectedCar].image || "/placeholder.svg"}
+                  src={featuredCars[selectedCar].mainPicUrl || "/placeholder.svg"}
                   alt={featuredCars[selectedCar].name}
                   className="object-contain w-full h-full"
                 />
@@ -200,26 +174,25 @@ export default function Home() {
 
           <div className="grid grid-cols-4 gap-2 p-4 border-t">
             {featuredCars.map((car, index) => (
-              <div 
-                key={car.id} 
-                className={`flex flex-col items-center cursor-pointer transition-all duration-200 ${
-                  selectedCar === index ? 'scale-105 opacity-100' : 'opacity-70 hover:opacity-100'
-                }`}
+              <div
+                key={car.id}
+                className={`flex flex-col items-center cursor-pointer transition-all duration-200 ${selectedCar === index ? 'scale-105 opacity-100' : 'opacity-70 hover:opacity-100'
+                  }`}
                 onClick={() => setSelectedCar(index)}
               >
                 <div className={`relative h-auto w-24 mb-2 ${selectedCar === index ? 'border-b-2 border-blue-900' : ''}`}>
                   <img
-                    src={car.thumbnail || "/placeholder.svg"}
-                    alt={car.name}
+                    src={car.mainPicUrl || "/placeholder.svg"}
+                    alt={`${car.make} ${car.model}`}
                     className="object-contain w-full h-full"
                   />
                 </div>
-                <span className="text-xs text-center">{car.name}</span>
+                <span className="text-xs text-center">{car.make} {car.model}</span>
               </div>
             ))}
           </div>
         </motion.div>
-      </div>  
+      </div>
     </main>
   )
 }
