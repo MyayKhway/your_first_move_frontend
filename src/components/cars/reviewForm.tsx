@@ -4,6 +4,7 @@ import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouterState } from "@tanstack/react-router";
+import ReviewLoginPrompt from "../user_interface/reviewLogin";
 
 interface ReviewFormPropsType {
   user: User | null,
@@ -50,7 +51,7 @@ export default function ReviewForm({ user }: ReviewFormPropsType) {
 
   }
   if (!user || user.type !== 'user') {
-    return null
+    return <ReviewLoginPrompt />
   }
   return (
     <div className="mb-8 p-4 border border-gray-200 rounded-lg" >
