@@ -112,7 +112,7 @@ export default function ReviewsSection({ reviews }: ReviewsSectionPropsType) {
     </div>
   ) : (
     <div>
-      <span>No Reviews</span>
+      <span className="text-blue-600 mb-10">No Reviews Available</span>
       <ReviewForm user={user} />
     </div>
   )
