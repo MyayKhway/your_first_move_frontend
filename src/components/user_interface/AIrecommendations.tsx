@@ -1,7 +1,9 @@
 import CarCard from "@/components/user_interface/carResultCard";
-import { useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import React from "react";
 import AIReasonDisplay from "@/components/user_interface/aireasonDisplay"
+import { NoCarsFound } from "./noCarFound";
+import { Button } from "../ui/button";
 
 const CarRecommendations = () => {
   const { reason, carRecommendations: rawCarRecommendations } = useRouterState({
@@ -28,17 +30,23 @@ const CarRecommendations = () => {
           <h1 className="text-xl font-bold text-blue-900">
             Your Car Recommendations
           </h1>
+          <Button className="hover:bg-blue-800">
+            <Link to="/">
+              Search Again
+            </Link>
+          </Button>
         </div>
-        <div className="flex flex-col gap-5 items-center justify-center">
-          {
-            reason ?
-              <AIReasonDisplay text={reason} />
-              : <AIReasonDisplay text={"No car available in our database that matches your needs."} label={"Apologies"} />
-          }
-          {Array.isArray(parsedRecommendations) && parsedRecommendations.map((car, index) => (
+        {
+          reason ?
+            <AIReasonDisplay text={reason} />
+            : <AIReasonDisplay text={"No car available in our database that matches your needs."} label={"Apologies"} />
+        }
+        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-10">
+          {(Array.isArray(parsedRecommendations) && parsedRecommendations.length > 0) && parsedRecommendations.map((car, index) => (
             <CarCard key={index} car={car} />
           ))}
         </div>
+        {(Array.isArray(parsedRecommendations) && parsedRecommendations.length <= 0) && <NoCarsFound />}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TosImport } from './routes/tos'
 import { Route as CarsRouteImport } from './routes/cars/route'
 import { Route as DealerRouteImport } from './routes/_dealer/route'
 import { Route as AuthRouteImport } from './routes/_auth/route'
@@ -32,6 +33,12 @@ import { Route as AuthDealerSigninImport } from './routes/_auth/dealer-signin'
 import { Route as CarsSearchTypeImport } from './routes/cars/search.$type'
 
 // Create/Update Routes
+
+const TosRoute = TosImport.update({
+  id: '/tos',
+  path: '/tos',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const CarsRouteRoute = CarsRouteImport.update({
   id: '/cars',
@@ -175,6 +182,13 @@ declare module '@tanstack/react-router' {
       path: '/cars'
       fullPath: '/cars'
       preLoaderRoute: typeof CarsRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/tos': {
+      id: '/tos'
+      path: '/tos'
+      fullPath: '/tos'
+      preLoaderRoute: typeof TosImport
       parentRoute: typeof rootRoute
     }
     '/_auth/dealer-signin': {
@@ -351,6 +365,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof DealerRouteRouteWithChildren
   '/cars': typeof CarsRouteRouteWithChildren
+  '/tos': typeof TosRoute
   '/dealer-signin': typeof AuthDealerSigninRoute
   '/dealer-signup': typeof AuthDealerSignupRoute
   '/forgotpass': typeof AuthForgotpassRoute
@@ -372,6 +387,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof DealerRouteRouteWithChildren
   '/cars': typeof CarsRouteRouteWithChildren
+  '/tos': typeof TosRoute
   '/dealer-signin': typeof AuthDealerSigninRoute
   '/dealer-signup': typeof AuthDealerSignupRoute
   '/forgotpass': typeof AuthForgotpassRoute
@@ -395,6 +411,7 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteRouteWithChildren
   '/_dealer': typeof DealerRouteRouteWithChildren
   '/cars': typeof CarsRouteRouteWithChildren
+  '/tos': typeof TosRoute
   '/_auth/dealer-signin': typeof AuthDealerSigninRoute
   '/_auth/dealer-signup': typeof AuthDealerSignupRoute
   '/_auth/forgotpass': typeof AuthForgotpassRoute
@@ -418,6 +435,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/cars'
+    | '/tos'
     | '/dealer-signin'
     | '/dealer-signup'
     | '/forgotpass'
@@ -438,6 +456,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/cars'
+    | '/tos'
     | '/dealer-signin'
     | '/dealer-signup'
     | '/forgotpass'
@@ -459,6 +478,7 @@ export interface FileRouteTypes {
     | '/_auth'
     | '/_dealer'
     | '/cars'
+    | '/tos'
     | '/_auth/dealer-signin'
     | '/_auth/dealer-signup'
     | '/_auth/forgotpass'
@@ -482,6 +502,7 @@ export interface RootRouteChildren {
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   DealerRouteRoute: typeof DealerRouteRouteWithChildren
   CarsRouteRoute: typeof CarsRouteRouteWithChildren
+  TosRoute: typeof TosRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -489,6 +510,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRouteRoute: AuthRouteRouteWithChildren,
   DealerRouteRoute: DealerRouteRouteWithChildren,
   CarsRouteRoute: CarsRouteRouteWithChildren,
+  TosRoute: TosRoute,
 }
 
 export const routeTree = rootRoute
@@ -504,7 +526,8 @@ export const routeTree = rootRoute
         "/",
         "/_auth",
         "/_dealer",
-        "/cars"
+        "/cars",
+        "/tos"
       ]
     },
     "/": {
@@ -539,6 +562,9 @@ export const routeTree = rootRoute
         "/cars/all",
         "/cars/search/$type"
       ]
+    },
+    "/tos": {
+      "filePath": "tos.tsx"
     },
     "/_auth/dealer-signin": {
       "filePath": "_auth/dealer-signin.tsx",

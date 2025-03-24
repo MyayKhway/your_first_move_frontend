@@ -2,14 +2,14 @@ import CarCard from "@/components/user_interface/carResultCard";
 import { getRouteApi, useRouterState } from "@tanstack/react-router";
 
 const CarSearchResults = () => {
-  const url = useRouterState().location.pathname.split('/')
+  const url = useRouterState().location.pathname.split("/");
   let routeApi;
-  if (url[url.length - 1] == 'all') {
-    routeApi = getRouteApi('/cars/all')
+  if (url[url.length - 1] == "all") {
+    routeApi = getRouteApi("/cars/all");
   } else {
-    routeApi = getRouteApi('/cars/search/$type')
+    routeApi = getRouteApi("/cars/search/$type");
   }
-  const { carResults } = routeApi.useLoaderData()
+  const { carResults } = routeApi.useLoaderData();
 
   return (
     <div className="mt-20 flex gap-4 p-8 h-svh border border-solid border-gray-400">
@@ -19,7 +19,7 @@ const CarSearchResults = () => {
             Your Car Search Results
           </h1>
         </div>
-        <div className="flex flex-col gap-5 items-center justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-10">
           {carResults.map((car, index) => (
             <CarCard key={index} car={car} />
           ))}
