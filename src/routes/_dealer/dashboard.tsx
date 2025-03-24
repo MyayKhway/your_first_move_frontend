@@ -3,33 +3,32 @@ import CarsList from '@/components/dealer_interface/allCars'
 
 
 export const Route = createFileRoute('/_dealer/dashboard')({
-  beforeLoad: ({ context, location }) => {
-    if (!context.isAuthenticated()) {
-      throw redirect({
-        to: '/signin',
-        replace: true,
-        search: {
-          redirect: location.href
-        }
-      })
-    }
-    if (!context.isDealer()) {
-      throw redirect({
-        to: '/',
-        replace: true,
-        search: {
-          redirect: location.href
-        }
-      })
-    }
-  },
+  // beforeLoad: ({ context, location }) => {
+  //   if (!context.isAuthenticated()) {
+  //     throw redirect({
+  //       to: '/signin',
+  //       replace: true,
+  //     })
+  //   }
+  //   if (!context.isDealer()) {
+  //     throw redirect({
+  //       to: '/',
+  //       replace: true,
+  //     })
+  //   }
+  // },
   preload: true,
   loader: async () => {
     const storedUser = localStorage.getItem("user")
     const user = storedUser ? JSON.parse(storedUser) : null
     const id = user ? user.id : null
-    if (!id)
-      return []
+    const type = user ? user.type : null
+    if (!id || !type || type !== "dealer") {
+      throw redirect({
+        to: '/',
+        replace: true,
+      })
+    }
     try {
       const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
       const response = await fetch(`${baseUrl}/car/all?` + new URLSearchParams({
