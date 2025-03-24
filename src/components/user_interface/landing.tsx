@@ -120,7 +120,7 @@ export default function Home() {
                     ref={inputRef}
                     type="text"
                     placeholder="Describe what you're looking for"
-                    className="bg-gray-200 w-full py-3 px-12 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-lg"
+                    className="bg-gray-200 w-full py-3 pl-12 pr-4 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-lg"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => {
