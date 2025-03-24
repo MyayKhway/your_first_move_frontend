@@ -11,10 +11,13 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isAnimating, setIsAnimating] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
+
     if (!searchQuery.trim()) return
     const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
     const response = await fetch(`${baseUrl}/ai-query`, {
@@ -35,7 +38,6 @@ export default function Home() {
       })
     } else {
       const { reason, carRecommendations } = await response.json()
-      toast.success(`Successfully queried your-first-move AI`)
       setIsAnimating(true)
       navigate({
         to: '/cars/ai-recommendations',

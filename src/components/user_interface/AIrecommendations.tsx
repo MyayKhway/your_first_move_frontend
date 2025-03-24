@@ -1,12 +1,12 @@
 import CarCard from "@/components/user_interface/carResultCard";
 import { useRouterState } from "@tanstack/react-router";
 import React from "react";
+import AIReasonDisplay from "@/components/user_interface/aireasonDisplay"
 
 const CarRecommendations = () => {
   const { reason, carRecommendations: rawCarRecommendations } = useRouterState({
     select: s => s.location.state
   })
-  console.log(reason)
 
   // Parse the string back to an array
   const parsedRecommendations = React.useMemo(() => {
@@ -30,6 +30,11 @@ const CarRecommendations = () => {
           </h1>
         </div>
         <div className="flex flex-col gap-5 items-center justify-center">
+          {
+            reason ?
+              <AIReasonDisplay text={reason} />
+              : <AIReasonDisplay text={"No car available in our database that matches your needs."} label={"Apologies"} />
+          }
           {Array.isArray(parsedRecommendations) && parsedRecommendations.map((car, index) => (
             <CarCard key={index} car={car} />
           ))}
