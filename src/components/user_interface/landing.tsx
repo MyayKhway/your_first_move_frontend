@@ -6,6 +6,7 @@ import { Search } from "lucide-react"
 import CarTypeSelector from "@/components/user_interface/carTypeSelector"
 import { toast } from "sonner"
 import { useNavigate } from "@tanstack/react-router"
+import LoadingSpinner from "../loadingSpinner"
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -86,6 +87,7 @@ export default function Home() {
                       }
                     }}
                   />
+                  <LoadingSpinner />
                 </div>
               </motion.form>
             ) : null}
