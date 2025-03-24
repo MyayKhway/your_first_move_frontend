@@ -1,6 +1,7 @@
 import { NavBar } from '@/components/navbar'
 import { createFileRoute, Outlet, useRouterState } from '@tanstack/react-router'
 import Landing from '@/components/user_interface/landing'
+import { Footer } from '@/components/footer'
 
 export const Route = createFileRoute('/')({
   loader: async () => {
@@ -25,6 +26,7 @@ function IndexComponent() {
     <div>
       <NavBar />
       {isRootPath ? <Landing /> : <Outlet />}
+      <Footer />
     </div>
   )
 }

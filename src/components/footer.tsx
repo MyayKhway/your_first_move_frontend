@@ -1,9 +1,9 @@
-import { Link } from "@tanstack/react-router"
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react"
+import { Mail, Phone, MapPin } from "lucide-react"
+import { SiFacebook, SiX, SiInstagram, } from '@icons-pack/react-simple-icons'
 
 export function Footer() {
   return (
-    <footer className="w-full bg-blue-900 text-white">
+    <footer className="w-full bg-blue-800 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main footer content */}
         <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -15,21 +15,17 @@ export function Footer() {
             </p>
             <div className="flex space-x-4 pt-2">
               <a href="#" className="text-blue-200 hover:text-white transition-colors">
-                <Facebook className="h-5 w-5" />
+                <SiFacebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
               </a>
               <a href="#" className="text-blue-200 hover:text-white transition-colors">
-                <Twitter className="h-5 w-5" />
+                <SiX className="h-5 w-5" />
                 <span className="sr-only">Twitter</span>
               </a>
-              <Link to="#" className="text-blue-200 hover:text-white transition-colors">
-                <Instagram className="h-5 w-5" />
+              <a href="#" className="text-blue-200 hover:text-white transition-colors">
+                <SiInstagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
-              </Link>
-              <Link to="#" className="text-blue-200 hover:text-white transition-colors">
-                <Linkedin className="h-5 w-5" />
-                <span className="sr-only">LinkedIn</span>
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -84,15 +80,9 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Your First Move. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 sm:mt-0">
-            <Link href="#" className="text-blue-300 hover:text-white text-sm">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="text-blue-300 hover:text-white text-sm">
+            <a href="/tos" className="text-blue-300 hover:text-white text-sm">
               Terms of Service
-            </Link>
-            <Link href="#" className="text-blue-300 hover:text-white text-sm">
-              Cookie Policy
-            </Link>
+            </a>
           </div>
         </div>
       </div>
