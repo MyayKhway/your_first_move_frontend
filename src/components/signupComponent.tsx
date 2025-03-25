@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/authContext";
 
 export default function SignUpForm() {
@@ -98,7 +98,7 @@ export default function SignUpForm() {
 
           <div className="flex items-center space-x-2">
             <Checkbox checked={formData.terms} onCheckedChange={handleCheckboxChange} />
-            <label className="text-gray-700 text-sm sm:text-base">I agree to the terms and conditions</label>
+            <label className="text-gray-700 text-sm sm:text-base">I agree to the <Link className="underline text-blue-700" to='/tos'>terms and conditions</Link></label>
           </div>
 
           {formState == "wrong" && <span className="text-xs text-red-500">User already exists.</span>}
