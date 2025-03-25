@@ -12,8 +12,10 @@ const CarSearchResults = () => {
   const { carResults } = routeApi.useLoaderData();
 
   return (
-    <div className="mt-20 flex gap-4 p-8 h-svh border border-solid border-gray-400">
-      <div className="flex-1 space-y-6">
+    <div>
+    <div className="fixed inset-0 w-full h-full min-h-screen bg-gradient-to-b from-grey-800 via-blue-200 to-blue-400 pb-16 -z-10"></div>
+    <div className="mt-20 flex gap-4 p-8 h-svh border-t border-gray-400"> 
+      <div className="flex-1 space-y-6">  
         <div className="flex justify-between">
           <h1 className="text-xl font-bold text-blue-900">
             Your Car Search Results
@@ -25,7 +27,9 @@ const CarSearchResults = () => {
           ))}
         </div>
       </div>
+      </div>
     </div>
+    
   );
 };
 

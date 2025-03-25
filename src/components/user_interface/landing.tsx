@@ -1,7 +1,7 @@
 import type React from "react"
-
+import { Button } from "@/components/ui/button"
 import { useState, useRef, useEffect } from "react"
-import { motion, AnimatePresence, useInView, useAnimation } from "framer-motion"
+import { motion, AnimatePresence, useAnimation } from "framer-motion"
 import { Search } from "lucide-react"
 import CarTypeSelector from "@/components/user_interface/carTypeSelector"
 import { toast } from "sonner"
@@ -14,7 +14,6 @@ export default function Home() {
   const [isAnimating, setIsAnimating] = useState(false)
   const [selectedCar, setSelectedCar] = useState(0)
   const ref = useRef(null)
-  const isinView = useInView(ref, { once: true })
   const mainControl = useAnimation()
   const inputRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
@@ -22,11 +21,57 @@ export default function Home() {
   const routeApi = getRouteApi('/')
   const { featuredCars } = routeApi.useLoaderData()
 
-  useEffect(() => {
-    if (isinView) {
-      mainControl.start("visible")
-    }
-  }, [isinView])
+  const TypewriterEffect = ({ text, delay = 70 }) => {
+    const [displayText, setDisplayText] = useState("")
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const [isDeleting, setIsDeleting] = useState(false)
+    const [isWaiting, setIsWaiting] = useState(false)
+  
+    useEffect(() => {
+      let timeout
+  
+      if (isWaiting) {
+        timeout = setTimeout(() => {
+          setIsWaiting(false)
+          setIsDeleting(true)
+        }, 2000)
+        return () => clearTimeout(timeout)
+      }
+  
+      if (isDeleting) {
+        if (displayText === "") {
+          setIsDeleting(false)
+          setCurrentIndex((currentIndex + 1) % text.length)
+          return
+        }
+  
+        timeout = setTimeout(() => {
+          setDisplayText((prev) => prev.slice(0, -1))
+        }, delay / 2)
+        return () => clearTimeout(timeout)
+      }
+  
+      if (displayText === text[currentIndex]) {
+        setIsWaiting(true)
+        return
+      }
+  
+      timeout = setTimeout(() => {
+        setDisplayText(text[currentIndex].slice(0, displayText.length + 1))
+      }, delay)
+  
+      return () => clearTimeout(timeout)
+    }, [displayText, currentIndex, delay, isDeleting, isWaiting, text])
+  
+    return displayText
+  }
+
+  const searchTexts = [
+    "Tesla Model 3 in red...",
+    "SUV with low mileage...",
+    "Family car under $30,000...",
+    "Hybrid with good fuel economy...",
+  ]
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -69,9 +114,9 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center">
       {/* Gradient background with wave */}
-      <div className="w-full bg-gradient-to-b from-grey-800 via-blue-600 to-blue-900 pb-16 relative">
+      <div className="w-full bg-gradient-to-b from-grey-800 via-blue-600 to-blue-800 pb-16 relative">
         <div className="container mx-auto px-4 pt-16 pb-32 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-8">Let&apos;s find your perfect car</h1>
+        <h1 className="text-4xl md:text-6xl font-bold text-white mt-10 mb-10">Let's find your perfect car</h1>
 
           <AnimatePresence>
             {!isAnimating ? (
@@ -88,11 +133,12 @@ export default function Home() {
               >
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <Button className="absolute right-1 top-1/2 transform -translate-y-1/2 rounded-full bg-blue-500 hover:bg-blue-700">Search</Button>
                   <input
                     ref={inputRef}
                     type="text"
-                    placeholder="Describe what you're looking for"
-                    className="bg-gray-200 w-full py-3 pl-12 pr-4 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-lg"
+                    placeholder={TypewriterEffect({ text: searchTexts })}
+                    className="bg-white w-full py-3 pl-12 pr-4 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-lg"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => {
@@ -101,6 +147,7 @@ export default function Home() {
                         handleSearch(e)
                       }
                     }}
+                    
                   />
                   {loading && <LoadingSpinner />}
                 </div>
@@ -108,26 +155,17 @@ export default function Home() {
             ) : null}
           </AnimatePresence>
         </div>
-
-        {/* Wave shape */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
-          <svg viewBox="0 0 500 150" preserveAspectRatio="none" className="h-full w-full">
-            <path
-              d="M0.00,49.98 C150.00,150.00 349.20,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"
-              className="fill-white"
-            />
-          </svg>
-        </div>
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-white -mb-1" style={{ borderRadius: "100% 100% 0 0" }}></div>
       </div>
 
       {/* Car type selector section */}
-      <div className="container mx-auto px-4 py-12 mb-20">
+      <div className="container mx-auto px-4 py-12 mb-20 -mt-5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-2xl font-semibold text-center mb-10">Search By Type</h2>
+          <h2 className="text-3xl font-bold text-center mb-10">Search By Type</h2>
           <CarTypeSelector />
         </motion.div>
       </div>
@@ -135,7 +173,7 @@ export default function Home() {
 
       {/* Featured Cars Section */}
       <div ref={ref} className="container margin-top: 100px mx-auto px-4 py-8 -mt-8">
-        <h2 className="text-2xl font-semibold text-center mb-10">Featured Cars</h2>
+        <h2 className="text-3xl font-bold text-center mb-10">Featured Cars</h2>
         <motion.div
           initial="invisible"
           animate={mainControl}

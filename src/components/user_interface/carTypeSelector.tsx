@@ -1,5 +1,6 @@
 import { Zap, Truck, Car, Leaf } from "lucide-react"
 import { Link } from "@tanstack/react-router"
+import { motion } from "framer-motion"
 
 const carTypes = [
   {
@@ -37,11 +38,15 @@ export default function CarTypeSelector() {
         <Link
           key={type.name}
           to={type.href}
-          className="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all min-w-[140px]"
+          className="flex flex-col items-center justify-center p-8 border border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all min-w-[160px]"
         >
-          <div className="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-full mb-3">
+          <motion.div
+              className="w-14 h-14 flex items-center justify-center bg-gray-100 rounded-full mb-3"
+              whileHover={{ scale: 1.1, backgroundColor: "#e0f2fe" }}
+              transition={{ type: "spring", stiffness: 300, damping: 10 }}
+            >
             {type.icon}
-          </div>
+          </motion.div>
           <span className="font-medium">{type.name}</span>
         </Link>
       ))}
