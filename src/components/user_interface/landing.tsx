@@ -26,10 +26,10 @@ export default function Home() {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [isDeleting, setIsDeleting] = useState(false)
     const [isWaiting, setIsWaiting] = useState(false)
-  
+
     useEffect(() => {
       let timeout
-  
+
       if (isWaiting) {
         timeout = setTimeout(() => {
           setIsWaiting(false)
@@ -37,32 +37,32 @@ export default function Home() {
         }, 2000)
         return () => clearTimeout(timeout)
       }
-  
+
       if (isDeleting) {
         if (displayText === "") {
           setIsDeleting(false)
           setCurrentIndex((currentIndex + 1) % text.length)
           return
         }
-  
+
         timeout = setTimeout(() => {
           setDisplayText((prev) => prev.slice(0, -1))
         }, delay / 2)
         return () => clearTimeout(timeout)
       }
-  
+
       if (displayText === text[currentIndex]) {
         setIsWaiting(true)
         return
       }
-  
+
       timeout = setTimeout(() => {
         setDisplayText(text[currentIndex].slice(0, displayText.length + 1))
       }, delay)
-  
+
       return () => clearTimeout(timeout)
     }, [displayText, currentIndex, delay, isDeleting, isWaiting, text])
-  
+
     return displayText
   }
 
@@ -116,7 +116,7 @@ export default function Home() {
       {/* Gradient background with wave */}
       <div className="w-full bg-gradient-to-b from-grey-800 via-blue-600 to-blue-800 pb-16 relative">
         <div className="container mx-auto px-4 pt-16 pb-32 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold text-white mt-10 mb-10">Let's find your perfect car</h1>
+          <h1 className="text-4xl md:text-6xl font-bold text-white mt-10 mb-10">Let's find your perfect car</h1>
 
           <AnimatePresence>
             {!isAnimating ? (
@@ -133,7 +133,6 @@ export default function Home() {
               >
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                  <Button className="absolute right-1 top-1/2 transform -translate-y-1/2 rounded-full bg-blue-500 hover:bg-blue-700">Search</Button>
                   <input
                     ref={inputRef}
                     type="text"
@@ -147,7 +146,7 @@ export default function Home() {
                         handleSearch(e)
                       }
                     }}
-                    
+
                   />
                   {loading && <LoadingSpinner />}
                 </div>
