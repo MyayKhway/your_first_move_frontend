@@ -1,17 +1,18 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useSearch } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
-interface VerifyEmailPropsType {
-  token: string
-}
-const VerifyEmail = (props: VerifyEmailPropsType) => {
+const VerifyEmail = () => {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+  const { token, type } = useSearch({ from: '/_auth/verify-email' })
+  const [tokenVal, setToken] = useState(token)
+  const [typeVal, setType] = useState(type)
+
 
   useEffect(() => {
     const verifyEmail = async () => {
       try {
         const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
-        const response = await fetch(`${baseUrl}/auth/verify-email?token=${props.token}`, { method: "POST" });
+        const response = await fetch(`${baseUrl}/auth/verify-email?token=${tokenVal}&type=${typeVal}`, { method: "POST" });
         if (response.ok) {
           setStatus("success");
         } else {
@@ -23,7 +24,7 @@ const VerifyEmail = (props: VerifyEmailPropsType) => {
       }
     };
     verifyEmail();
-  }, [props.token]);
+  }, [tokenVal]);
 
   if (status === "loading") return null; // Don't render anything while loading
 
